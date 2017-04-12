@@ -8,6 +8,10 @@ namespace WorktimeRegister.Models
 {
     public class WorktimeRegisterDb : DbContext
     {
+        public WorktimeRegisterDb() : base("name = DefaultConnection")
+        {
+
+        }
         public DbSet<Worktimes> Worktimes { get; set; }
     }
 }
