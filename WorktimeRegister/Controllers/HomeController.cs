@@ -13,7 +13,9 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult Index()
         {
-            var model = _db.Worktimes.ToList();
+            var model = from r in _db.Worktimes
+                        orderby r.Name ascending
+                        select r;
             return View(model);
         }
 
