@@ -189,6 +189,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\WorktimeRegisterDb.cs" />
     <Compile Include="Models\Worktimes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

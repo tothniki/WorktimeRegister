@@ -12,5 +12,6 @@ namespace WorktimeRegister.Models
         public DateTime Date { get; set; }
         public DateTime Arrival { get; set; }
         public DateTime Leaving { get; set; }
+        public int UserId { get; set; }
     }
 }
