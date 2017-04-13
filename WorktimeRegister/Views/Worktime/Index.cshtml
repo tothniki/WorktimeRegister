@@ -6,6 +6,11 @@
 
 <h2>Worktimes</h2>
 
+<form method="get">
+    <input type="search" name="searchTerm"/>
+    <input type="submit" value="Search By Email" />
+</form>
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -23,6 +28,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Leaving)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
         <th></th>
     </tr>
 
@@ -39,6 +47,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Leaving)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
