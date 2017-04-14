@@ -9,16 +9,25 @@ namespace WorktimeRegister.Controllers
 {
     public class WorktimeController : Controller
     {
-        //
-        // GET: /Worktime/
+        WorktimeRegisterDb _db = new WorktimeRegisterDb();
 
-        public ActionResult Index()
+        //public ActionResult Index(DateTime searchTerm)
+        //{
+        //    var model = _db.Worktimes.OrderByDescending(r => r.Date)
+        //                    .Where(r => searchTerm == r.Date)
+        //                    .Take(10)
+        //                    .Select(r => r);
+        //    return View(model);
+        //}
+        public ActionResult Index(string searchTerm = null)
         {
-            var model = from w in _worktimes
-                        orderby w.Name
-                        select w;
+            var model = _db.Worktimes.OrderByDescending(r => r.Date)
+                            .Where(r => searchTerm == null || r.Name.StartsWith(searchTerm))
+                            .Take(10)
+                            .Select(r => r);
             return View(model);
         }
+
 
         //
         // GET: /Worktime/Details/5
@@ -106,29 +115,6 @@ namespace WorktimeRegister.Controllers
             }
         }
 
-        static List<Worktimes> _worktimes = new List<Worktimes>{
-            new Worktimes{
-                Id=1,
-                Name="Niki",
-                Date=DateTime.Today,
-                Arrival=DateTime.Now,
-                Leaving = DateTime.Now.AddHours(8)
-            },
-             new Worktimes{
-                Id=2,
-                Name="Dani",
-                Date=DateTime.Today,
-                Arrival=DateTime.Now,
-                Leaving = DateTime.Now.AddHours(5)
-            },
-             new Worktimes{
-                Id=3,
-                Name="Gonzi",
-                Date=DateTime.Today,
-                Arrival=DateTime.Now,
-                Leaving = DateTime.Now.AddHours(6)
-            }
-
-        };
+       
     }
 }
