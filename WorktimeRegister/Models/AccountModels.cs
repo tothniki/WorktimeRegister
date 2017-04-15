@@ -53,11 +53,33 @@ namespace WorktimeRegister.Models
 
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage="{0} is required")]
+        [StringLength(50, ErrorMessage = "The {0} length should be less than 50 characters long.")]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(50, ErrorMessage = "The {0} length should be less than 50 characters long.")]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [EmailAddress]
+        [StringLength(50, ErrorMessage = "The {0} length should be less than 50 characters long.")]
+        [Display(Name = "Email adress")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(20, ErrorMessage = "The {0} must be maximum {1} characters long.")]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} is required")]
+        [RegularExpression(@"^[0-9]{0,15}$", ErrorMessage = "The {0} should contain only numbers.")]
+        [Display(Name = "Mobile number")]
+        public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

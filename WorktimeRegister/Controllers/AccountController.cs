@@ -15,6 +15,9 @@ namespace WorktimeRegister.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+
+        WorktimeRegisterDb _db = new WorktimeRegisterDb();
+
         //
         // GET: /Account/Login
 
@@ -77,7 +80,7 @@ namespace WorktimeRegister.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new { FirstName=model.FirstName, LastName = model.LastName, Email=model.Email, PhoneNumber = model.PhoneNumber});
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
@@ -119,6 +122,48 @@ namespace WorktimeRegister.Controllers
 
             return RedirectToAction("Manage", new { Message = message });
         }
+
+        //
+        // GET: /Account/ManageUserInfo
+
+        public ActionResult ManageUserInfo()
+        {
+            string username = User.Identity.Name;
+            //Get the userprofile
+            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserName.Equals(username));
+
+            return View(currentUserProfileModel);
+        }
+
+        //
+        // POST: /Account/ManageUserInfo
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManageUserInfo(UserProfile currentUserProfileModel)
+        {
+            if (ModelState.IsValid)
+            {
+                string username = User.Identity.Name;
+                //Get the userprofile
+                UserProfile user = _db.UserProfiles.First(u => u.UserName.Equals(username));
+
+                //Update fields
+                user.FirstName = currentUserProfileModel.FirstName;
+                user.LastName = currentUserProfileModel.LastName;
+                user.Email = currentUserProfileModel.Email;
+                user.PhoneNumber = currentUserProfileModel.PhoneNumber;
+
+                _db.Entry(user).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("Index","Home");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(currentUserProfileModel);
+        }
+
 
         //
         // GET: /Account/Manage
