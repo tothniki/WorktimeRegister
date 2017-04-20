@@ -60,21 +60,21 @@ namespace WorktimeRegister.Migrations
                          new Worktimes
                          {
                              Name = "danika",
-                             Date = DateTime.Today.AddDays(2),
+                             Date = DateTime.Today.AddYears(1),
                              Arrival = DateTime.Now.AddHours(2),
                              Leaving = DateTime.Now.AddHours(8)
                          },
                          new Worktimes
                          {
                              Name = "danika",
-                             Date = DateTime.Today.AddDays(4),
+                             Date = DateTime.Today.AddDays(4).AddMonths(2).AddYears(2),
                              Arrival = DateTime.Now.AddHours(3),
                              Leaving = DateTime.Now.AddHours(5)
                          },
                          new Worktimes
                          {
                              Name = "danika",
-                             Date = DateTime.Today,
+                             Date = DateTime.Today.AddMonths(1),
                              Arrival = DateTime.Now,
                              Leaving = DateTime.Now.AddHours(6)
                          }

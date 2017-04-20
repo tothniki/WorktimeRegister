@@ -592,6 +592,15 @@ tr.pager td {
     background-color: #add8e6;
 }
 
+/*Search by date
+----------------------------------------------------------*/
+table#searchByDate{
+    background-color: #cfe8f0;
+}
+td#searchByDate{
+    padding: 0.25em 0.25em 0.25em 0.25em;
+}
+
 
 /********************
 *   Mobile Styles   *

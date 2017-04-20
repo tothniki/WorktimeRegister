@@ -1,48 +1,32 @@
-﻿@model WorktimeRegister.Models.SearchByDate
-
-@*<form action="/WorktimeController/Index" method="get">
-    <input type="search" name="searchTerm" />
-    <input type="search" name="searchMonth" />
-    <input type="search" name="searchDay" />
-    <input type="submit" value="Search By Date" />
-</form>*@
-
-@*@using (Html.BeginForm())
+﻿@using (@Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    <table id="searchByDate">
+        <tr>
+            <td>
+                @Html.Label("Year")
+            </td>
+            <td>
+                @Html.TextBox("searchYear")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Month")
+            </td>
+            <td>
+                @Html.TextBox("searchMonth")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Day")
+            </td>
+            <td>
+                @Html.TextBox("searchDay")
+            </td>
+        </tr>
+    </table>
 
-    <fieldset>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Year)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Year)
-            @Html.ValidationMessageFor(model => model.Year)
-        </div>
+    <input type="submit" value="Search By Date" />
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Month)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Month)
-            @Html.ValidationMessageFor(model => model.Month)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Day)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Day)
-            @Html.ValidationMessageFor(model => model.Day)
-        </div>
-
-        <p>
-            <input type="submit" value="Search by Date" />
-        </p>
-    </fieldset>
-}*@
-Hahahahahahahahahahahahahahaha
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }
