@@ -193,6 +193,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\SearchByDate.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\WorktimeRegisterDb.cs" />
     <Compile Include="Models\Worktimes.cs" />
@@ -311,6 +312,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Worktime\Index.cshtml" />
     <Content Include="Views\Account\ManageUserInfo.cshtml" />
+    <Content Include="Views\Worktime\_SearchByDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

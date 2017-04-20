@@ -12,6 +12,7 @@ namespace WorktimeRegister.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string Name { get; set; }
         public DateTime Date { get; set; }
         public DateTime Arrival { get; set; }
         public DateTime Leaving { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using WorktimeRegister.Models;
@@ -11,24 +12,27 @@ namespace WorktimeRegister.Controllers
     {
         WorktimeRegisterDb _db = new WorktimeRegisterDb();
 
-        //public ActionResult Index(DateTime searchTerm)
+
+        [Authorize(Roles = "Admin")] //this is just an example
+        public ActionResult Index(int? searchTerm = null)
+        {
+            var model = _db.Worktimes.OrderByDescending(r => r.Date)
+                            .Where(r => searchTerm == null || r.Date.Day == searchTerm)
+                            .Take(10)
+                            .Select(r => r);
+            return View(model);
+        }
+        //[Authorize(Roles = "Admin")] //this is just an example
+        //public ActionResult Index(SearchByDate searchModel)
         //{
         //    var model = _db.Worktimes.OrderByDescending(r => r.Date)
-        //                    .Where(r => searchTerm == r.Date)
-        //                    .Take(10)
-        //                    .Select(r => r);
-        //    return View(model);
-        //}
-        //[Authorize(Roles="Admin")] //this is just an example
-        //public ActionResult Index(string searchTerm = null)
-        //{
-        //    var model = _db.Worktimes.OrderByDescending(r => r.Date)
-        //                    .Where(r => searchTerm == null || r.Name.StartsWith(searchTerm))
+        //                    .Where(r => searchModel.Year == null || r.Date.Day == searchModel.Year)
         //                    .Take(10)
         //                    .Select(r => r);
         //    return View(model);
         //}
 
+       
 
         //
         // GET: /Worktime/Details/5
