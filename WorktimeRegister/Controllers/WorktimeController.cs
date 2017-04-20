@@ -19,6 +19,7 @@ namespace WorktimeRegister.Controllers
         //                    .Select(r => r);
         //    return View(model);
         //}
+        [Authorize(Roles="Admin")] //this is just an example
         public ActionResult Index(string searchTerm = null)
         {
             var model = _db.Worktimes.OrderByDescending(r => r.Date)
