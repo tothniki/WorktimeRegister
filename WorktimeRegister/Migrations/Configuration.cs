@@ -1,6 +1,7 @@
 namespace WorktimeRegister.Migrations
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -18,34 +19,66 @@ namespace WorktimeRegister.Migrations
         protected override void Seed(WorktimeRegister.Models.WorktimeRegisterDb context)
         {
             //Looking them up by Name
-            context.Worktimes.AddOrUpdate(r => r.Name,
-                 new Worktimes
-                 {
-                     Id = 1,
-                     Name = "Niki",
-                     Date = DateTime.Today.AddDays(2),
-                     Arrival = DateTime.Now.AddHours(2),
-                     Leaving = DateTime.Now.AddHours(8),
-                     Email = "tothniki.ntt@gmail.com"
-                 },
-             new Worktimes
-             {
-                 Id = 2,
-                 Name = "Dani",
-                 Date = DateTime.Today.AddDays(4),
-                 Arrival = DateTime.Now.AddHours(3),
-                 Leaving = DateTime.Now.AddHours(5),
-                 Email= "fafula.dani@gmail.com"
-             },
-             new Worktimes
-             {
-                 Id = 3,
-                 Name = "Gonzi",
-                 Date = DateTime.Today,
-                 Arrival = DateTime.Now,
-                 Leaving = DateTime.Now.AddHours(6),
-                 Email = "nagy.gonzi@gmail.com"
-             });
+            //context.Worktimes.AddOrUpdate(r => r.Name,
+            //     new Worktimes
+            //     {
+            //         Id = 1,
+            //         Name = "Niki",
+            //         Date = DateTime.Today.AddDays(2),
+            //         Arrival = DateTime.Now.AddHours(2),
+            //         Leaving = DateTime.Now.AddHours(8),
+            //         Email = "tothniki.ntt@gmail.com"
+            //     },
+            // new Worktimes
+            // {
+            //     Id = 2,
+            //     Name = "Dani",
+            //     Date = DateTime.Today.AddDays(4),
+            //     Arrival = DateTime.Now.AddHours(3),
+            //     Leaving = DateTime.Now.AddHours(5),
+            //     Email= "fafula.dani@gmail.com"
+            // },
+            // new Worktimes
+            // {
+            //     Id = 3,
+            //     Name = "Gonzi",
+            //     Date = DateTime.Today,
+            //     Arrival = DateTime.Now,
+            //     Leaving = DateTime.Now.AddHours(6),
+            //     Email = "nagy.gonzi@gmail.com"
+            // });
+
+            context.UserProfiles.AddOrUpdate(r => r.UserName,
+               new UserProfile
+               {
+                   UserName = "danika",
+                   Email = "fafula.dani@gmail.com",
+                   FirstName = "Danika",
+                   LastName = "Fafula",
+                   PhoneNumber = "204249919",
+                   Worktimes = new List<Worktimes> {
+                         new Worktimes
+                         {
+                             Date = DateTime.Today.AddDays(2),
+                             Arrival = DateTime.Now.AddHours(2),
+                             Leaving = DateTime.Now.AddHours(8)
+                         },
+                         new Worktimes
+                         {
+                             Date = DateTime.Today.AddDays(4),
+                             Arrival = DateTime.Now.AddHours(3),
+                             Leaving = DateTime.Now.AddHours(5)
+                         },
+                         new Worktimes
+                         {
+                             Date = DateTime.Today,
+                             Arrival = DateTime.Now,
+                             Leaving = DateTime.Now.AddHours(6)
+                         }
+                   }
+               }
+           );
+
 
             //Seed user and admin
             SeedMembership();
@@ -55,7 +88,7 @@ namespace WorktimeRegister.Migrations
         {
             //just to make sure that everything is set up
             WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-            
+
             //get access to a current role provider
             var roles = (SimpleRoleProvider)Roles.Provider;
             var membership = (SimpleMembershipProvider)Membership.Provider;
@@ -64,7 +97,7 @@ namespace WorktimeRegister.Migrations
             {
                 roles.CreateRole("Admin");
             }
-            if(membership.GetUser("adminUser", false) == null)
+            if (membership.GetUser("adminUser", false) == null)
             {
                 membership.CreateUserAndAccount("adminUser", "adminUser123");
             }

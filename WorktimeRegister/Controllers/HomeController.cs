@@ -14,7 +14,7 @@ namespace WorktimeRegister.Controllers
         public ActionResult Index()
         {
             var model = from r in _db.Worktimes
-                        orderby r.Name ascending
+                        orderby r.Date ascending
                         select r;
             return View(model);
         }
