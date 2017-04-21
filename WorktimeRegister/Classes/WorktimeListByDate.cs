@@ -29,7 +29,7 @@ namespace WorktimeRegister.Classes
             {
                 model = _db.Worktimes.OrderByDescending(r => r.Date)
                             .Where(r => null == searchDay)
-                           .Take(10)
+                           .Take(20)
                           .Select(r => r);
             }
             else
@@ -39,7 +39,7 @@ namespace WorktimeRegister.Classes
                 {
                     model = _db.Worktimes.OrderByDescending(r => r.Date)
                                 .Where(r => r.Date.Year == searchYear && r.Date.Month == searchMonth && r.Date.Day == searchDay)
-                               .Take(10)
+                               .Take(20)
                               .Select(r => r);
                 }
                 else
@@ -49,7 +49,7 @@ namespace WorktimeRegister.Classes
                     {
                         model = _db.Worktimes.OrderByDescending(r => r.Date)
                                     .Where(r => r.Date.Year == searchYear && r.Date.Month == searchMonth)
-                                   .Take(10)
+                                   .Take(20)
                                   .Select(r => r);
                     }
                     else
@@ -59,7 +59,7 @@ namespace WorktimeRegister.Classes
                         {
                             model = _db.Worktimes.OrderByDescending(r => r.Date)
                                          .Where(r => r.Date.Year == searchYear && r.Date.Day == searchDay)
-                                       .Take(10)
+                                       .Take(20)
                                       .Select(r => r);
                         }
                         else
@@ -69,7 +69,7 @@ namespace WorktimeRegister.Classes
                             {
                                 model = _db.Worktimes.OrderByDescending(r => r.Date)
                                             .Where(r => r.Date.Month == searchMonth && r.Date.Day == searchDay)
-                                           .Take(10)
+                                           .Take(20)
                                           .Select(r => r);
                             }
                             else
@@ -79,7 +79,7 @@ namespace WorktimeRegister.Classes
                                 {
                                     model = _db.Worktimes.OrderByDescending(r => r.Date)
                                                  .Where(r => r.Date.Year == searchYear)
-                                               .Take(10)
+                                               .Take(20)
                                               .Select(r => r);
                                 }
                                 else
@@ -89,7 +89,7 @@ namespace WorktimeRegister.Classes
                                     {
                                         model = _db.Worktimes.OrderByDescending(r => r.Date)
                                                     .Where(r => r.Date.Month == searchMonth)
-                                                   .Take(10)
+                                                   .Take(20)
                                                   .Select(r => r);
                                     }
                                     else
@@ -99,7 +99,7 @@ namespace WorktimeRegister.Classes
                                         {
                                             model = _db.Worktimes.OrderByDescending(r => r.Date)
                                                          .Where(r => r.Date.Day == searchDay)
-                                                       .Take(10)
+                                                       .Take(20)
                                                       .Select(r => r);
                                         }
             }

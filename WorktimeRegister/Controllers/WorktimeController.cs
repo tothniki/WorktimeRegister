@@ -32,7 +32,8 @@ namespace WorktimeRegister.Controllers
 
         //
         // GET: /Worktime/Create
-
+        //for users
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -40,7 +41,7 @@ namespace WorktimeRegister.Controllers
 
         //
         // POST: /Worktime/Create
-
+        //for users
         [HttpPost]
         public ActionResult Create(Worktimes worktime)
         {
@@ -55,34 +56,36 @@ namespace WorktimeRegister.Controllers
                 return RedirectToAction("Index");
             }
             return View();
-           
         }
 
-        ////
-        //// GET: /Worktime/Edit/5
-        ////For Admin user
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        //
+        // GET: /Worktime/Edit/5
+        //For Admin user
+        public ActionResult Edit(int? id = null)
+        {
+            return PartialView("_Edit");
+        }
 
-        ////
-        //// POST: /Worktime/Edit/5
-        ////for admin user
-        //[HttpPost]
-        //public ActionResult Edit(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
+        //
+        // POST: /Worktime/Edit/5
+        //for admin user
+        [HttpPost]
+        public ActionResult Edit(Worktimes worktime, int? id = null)
+        {
+            var worktimesList = _db.Worktimes.OrderByDescending(r => r.Date)
+                            .Where(r => r.Arrival != null && r.Leaving == null)
+                          .Select(r => r);
 
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+            worktime = worktimesList.First();
+            if (ModelState.IsValid)
+            {
+                worktime.Leaving = DateTime.Now;
+                _db.Entry(worktime).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+             return PartialView("_Edit");
+        }
 
         //
         // GET: /Worktime/Delete/5

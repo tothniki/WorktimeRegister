@@ -314,6 +314,8 @@
     <Content Include="Views\Account\ManageUserInfo.cshtml" />
     <Content Include="Views\Worktime\_SearchByDate.cshtml" />
     <Content Include="Views\Worktime\Create.cshtml" />
+    <Content Include="Views\Worktime\_Edit.cshtml" />
+    <Content Include="Views\Worktime\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

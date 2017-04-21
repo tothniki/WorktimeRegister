@@ -1,8 +1,16 @@
-﻿@{
+﻿@model WorktimeRegister.Models.Worktimes
+
+@{
     ViewBag.Title = "Set Worktimes";
 }
 
 <h2>Set Worktimes</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>Set Worktimes</legend>
@@ -10,8 +18,15 @@
             <input type="submit" value="Arrive" />
         </p>
     </fieldset>
+}
 
-<div>
+@Html.Partial("_Edit")
+
+
+@*<div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
