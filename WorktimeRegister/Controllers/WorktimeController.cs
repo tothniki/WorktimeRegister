@@ -13,16 +13,11 @@ namespace WorktimeRegister.Controllers
     {
         WorktimeRegisterDb _db = new WorktimeRegisterDb();
 
-
         [Authorize(Roles = "Admin")] //this is just an example
         public ActionResult Index(int? searchYear= null, int? searchMonth = null, int? searchDay = null)
         {
             var worktimeLBD = new WorktimeListByDate(searchYear, searchMonth, searchDay);
             var model = worktimeLBD.getWorktimeList();
-            //var model = _db.Worktimes.OrderByDescending(r => r.Date)
-            //                .Where(r => searchDay == null || r.Date.Day == searchDay)
-            //                .Take(10)
-            //                .Select(r => r);
             return View(model);
         }
         
@@ -47,45 +42,47 @@ namespace WorktimeRegister.Controllers
         // POST: /Worktime/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Worktimes worktime)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                worktime.Name = User.Identity.Name;
+                worktime.Date = DateTime.Today;
+                worktime.Arrival = DateTime.Now;
+                worktime.Leaving = null;
+                _db.Worktimes.Add(worktime);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Worktime/Edit/5
-
-        public ActionResult Edit(int id)
-        {
             return View();
+           
         }
 
-        //
-        // POST: /Worktime/Edit/5
+        ////
+        //// GET: /Worktime/Edit/5
+        ////For Admin user
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        ////
+        //// POST: /Worktime/Edit/5
+        ////for admin user
+        //[HttpPost]
+        //public ActionResult Edit(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add update logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         //
         // GET: /Worktime/Delete/5

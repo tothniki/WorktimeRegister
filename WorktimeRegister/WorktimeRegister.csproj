@@ -313,6 +313,7 @@
     <Content Include="Views\Worktime\Index.cshtml" />
     <Content Include="Views\Account\ManageUserInfo.cshtml" />
     <Content Include="Views\Worktime\_SearchByDate.cshtml" />
+    <Content Include="Views\Worktime\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
