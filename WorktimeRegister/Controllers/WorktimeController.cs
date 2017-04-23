@@ -20,7 +20,6 @@ namespace WorktimeRegister.Controllers
             var model = worktimeLBD.getWorktimeList();
             return View(model);
         }
-        
 
         //
         // GET: /Worktime/Details/5
@@ -53,39 +52,50 @@ namespace WorktimeRegister.Controllers
                 worktime.Leaving = null;
                 _db.Worktimes.Add(worktime);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+             //   return PartialView("_ListCurrentWorktime", worktime);
             }
-            return View();
+            return View(worktime);
         }
 
         //
         // GET: /Worktime/Edit/5
         //For Admin user
-        public ActionResult Edit(int? id = null)
+        public ActionResult Edit(int id)
         {
-            return PartialView("_Edit");
+            Worktimes worktime = new Worktimes();
+            var worktimesList = _db.Worktimes.OrderByDescending(r => r.Date)
+                            .Where(r => r.Id == id)
+                          .Select(r => r);
+            
+            worktime = worktimesList.First();
+
+            //return RedirectToAction("Edit", worktime);
+            return PartialView("_Edit", worktime);
         }
 
         //
         // POST: /Worktime/Edit/5
         //for admin user
         [HttpPost]
-        public ActionResult Edit(Worktimes worktime, int? id = null)
+        public ActionResult Edit(Worktimes worktime)
         {
-            var worktimesList = _db.Worktimes.OrderByDescending(r => r.Date)
-                            .Where(r => r.Arrival != null && r.Leaving == null)
-                          .Select(r => r);
+            //var worktimesList = _db.Worktimes.OrderByDescending(r => r.Date)
+            //                .Where(r =>r.Id == worktime.Id && r.Arrival != null && r.Leaving == null)
+            //              .Select(r => r);
 
-            worktime = worktimesList.First();
-            if (ModelState.IsValid)
-            {
-                worktime.Leaving = DateTime.Now;
-                _db.Entry(worktime).State = System.Data.EntityState.Modified;
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-             return PartialView("_Edit");
+            //worktime = worktimesList.First();
+
+            //if (ModelState.IsValid)
+            //{
+            //    worktime.Leaving = DateTime.Now;
+            //    _db.Entry(worktime).State = System.Data.EntityState.Modified;
+            //    _db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            // return PartialView("_Edit");
+            return View("getID", worktime);
         }
+
 
         //
         // GET: /Worktime/Delete/5

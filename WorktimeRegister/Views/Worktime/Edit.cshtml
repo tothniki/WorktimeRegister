@@ -1,21 +1,4 @@
-﻿@*@model WorktimeRegister.Models.Worktimes
-
-<script src="~/Scripts/jquery-1.8.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-ID:
-@Html.DisplayFor(model => model.Id)
-@Html.ActionLink("Leaving", "Edit", new { id = Model.Id})
-@using (Html.BeginForm("Edit", "Worktime")) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-        <p>
-            <input type="submit" value="Leave" />
-        </p>
-}*@
-
-<!--dfjfdf---------------------djfhdf-->
-@model WorktimeRegister.Models.Worktimes
+﻿@model WorktimeRegister.Models.Worktimes
 
 @{
     ViewBag.Title = "Edit";
@@ -23,8 +6,7 @@ ID:
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm("Edit", "Worktime"))
-{
+@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
