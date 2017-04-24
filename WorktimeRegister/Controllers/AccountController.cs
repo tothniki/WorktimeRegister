@@ -123,6 +123,7 @@ namespace WorktimeRegister.Controllers
             return RedirectToAction("Manage", new { Message = message });
         }
 
+        //Do these next two action to update the user profile
         //
         // GET: /Account/ManageUserInfo
 

@@ -26,8 +26,9 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Date)
         </div>
+        <!-- Use textBoxFor, because i can pass html attributes, but neeed a format string because DisplayFormat[] is not working -->
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Date, new { @readonly = true, @class = "readonly" })
+            @Html.TextBoxFor(model => model.Date, "{0:yyyy.MM.dd}", new { @readonly = true, @class = "readonly" })
             @Html.ValidationMessageFor(model => model.Date)
         </div>
 

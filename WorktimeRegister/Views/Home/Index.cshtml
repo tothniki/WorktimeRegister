@@ -7,7 +7,7 @@
 @foreach (var item in Model)
 {
     <div>
-        <h4>@item.Date</h4>
+        <h4>@item.Date.ToString("yyy.MM.dd")</h4>
         <div>@item.Arrival, @item.Leaving</div>
         <hr />
     </div>

@@ -13,6 +13,7 @@ namespace WorktimeRegister.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd}",  ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         public DateTime? Arrival { get; set; }
         public DateTime? Leaving { get; set; }
