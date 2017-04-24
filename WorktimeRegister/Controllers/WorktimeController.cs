@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
+using WorktimeRegister.Classes;
 using WorktimeRegister.Models;
 
 namespace WorktimeRegister.Controllers
@@ -11,24 +13,14 @@ namespace WorktimeRegister.Controllers
     {
         WorktimeRegisterDb _db = new WorktimeRegisterDb();
 
-        //public ActionResult Index(DateTime searchTerm)
-        //{
-        //    var model = _db.Worktimes.OrderByDescending(r => r.Date)
-        //                    .Where(r => searchTerm == r.Date)
-        //                    .Take(10)
-        //                    .Select(r => r);
-        //    return View(model);
-        //}
-        //[Authorize(Roles="Admin")] //this is just an example
-        //public ActionResult Index(string searchTerm = null)
-        //{
-        //    var model = _db.Worktimes.OrderByDescending(r => r.Date)
-        //                    .Where(r => searchTerm == null || r.Name.StartsWith(searchTerm))
-        //                    .Take(10)
-        //                    .Select(r => r);
-        //    return View(model);
-        //}
-
+        [Authorize(Roles = "Admin")] //this is just an example
+        public ActionResult Index(int? searchYear= null, int? searchMonth = null, int? searchDay = null)
+        {
+            var worktimeLBD = new WorktimeListByDate(searchYear, searchMonth, searchDay);
+            var model = worktimeLBD.getWorktimeList();
+            return View(model);
+        }
+        
 
         //
         // GET: /Worktime/Details/5
@@ -40,7 +32,8 @@ namespace WorktimeRegister.Controllers
 
         //
         // GET: /Worktime/Create
-
+        //for users
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -48,46 +41,50 @@ namespace WorktimeRegister.Controllers
 
         //
         // POST: /Worktime/Create
-
+        //for users
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Worktimes worktime)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                worktime.Name = User.Identity.Name;
+                worktime.Date = DateTime.Today;
+                worktime.Arrival = DateTime.Now;
+                worktime.Leaving = null;
+                _db.Worktimes.Add(worktime);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Worktime/Edit/5
-
-        public ActionResult Edit(int id)
-        {
             return View();
         }
 
         //
-        // POST: /Worktime/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        // GET: /Worktime/Edit/5
+        //For Admin user
+        public ActionResult Edit(int? id = null)
         {
-            try
-            {
-                // TODO: Add update logic here
+            return PartialView("_Edit");
+        }
 
+        //
+        // POST: /Worktime/Edit/5
+        //for admin user
+        [HttpPost]
+        public ActionResult Edit(Worktimes worktime, int? id = null)
+        {
+            var worktimesList = _db.Worktimes.OrderByDescending(r => r.Date)
+                            .Where(r => r.Arrival != null && r.Leaving == null)
+                          .Select(r => r);
+
+            worktime = worktimesList.First();
+            if (ModelState.IsValid)
+            {
+                worktime.Leaving = DateTime.Now;
+                _db.Entry(worktime).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+             return PartialView("_Edit");
         }
 
         //

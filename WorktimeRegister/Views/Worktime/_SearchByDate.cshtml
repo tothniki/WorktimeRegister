@@ -1,0 +1,32 @@
+﻿@using (@Html.BeginForm())
+{
+    <table id="searchByDate">
+        <tr>
+            <td>
+                @Html.Label("Year")
+            </td>
+            <td>
+                @Html.TextBox("searchYear")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Month")
+            </td>
+            <td>
+                @Html.TextBox("searchMonth")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Day")
+            </td>
+            <td>
+                @Html.TextBox("searchDay")
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Search By Date" />
+
+}

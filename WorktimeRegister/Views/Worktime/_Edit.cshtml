@@ -1,0 +1,13 @@
+﻿@model WorktimeRegister.Models.Worktimes
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm("Edit", "Worktime")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+        <p>
+            <input type="submit" value="Leave" />
+        </p>
+}
