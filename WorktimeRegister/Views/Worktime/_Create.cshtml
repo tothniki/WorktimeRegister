@@ -1,18 +1,17 @@
 ﻿@model WorktimeRegister.Models.Worktimes
 
 @{
-    ViewBag.Title = "Set Worktime";
+    ViewBag.Title = "Set Worktimes";
 }
 
-<h2>Arrive</h2>
+<h2>Set Worktimes</h2>
 
-@using (Html.BeginForm("Create","Worktime"))
+@using (Html.BeginForm("Create", "Worktime"))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
     <fieldset>
-        <legend>Arrive</legend>
+        <legend>Set Worktimes</legend>
         <p>
             <input type="submit" value="Arrive" />
         </p>

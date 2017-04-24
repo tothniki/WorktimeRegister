@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
@@ -13,12 +14,34 @@ namespace WorktimeRegister.Controllers
     {
         WorktimeRegisterDb _db = new WorktimeRegisterDb();
 
-        [Authorize(Roles = "Admin")] //this is just an example
+        //[Authorize(Roles = "Admin")] //this is just an example
         public ActionResult Index(int? searchYear= null, int? searchMonth = null, int? searchDay = null)
         {
             var worktimeLBD = new WorktimeListByDate(searchYear, searchMonth, searchDay);
             var model = worktimeLBD.getWorktimeList();
             return View(model);
+        }
+
+        //
+        // GET: /Worktime/SetWorktime
+
+        public ActionResult SetWorktime()
+        {
+            Worktimes worktime = new Worktimes();
+            var worktimeList = _db.Worktimes.OrderByDescending(r => r.Date)
+                            .Where(r => r.Name == User.Identity.Name && r.Date == DateTime.Today && r.Arrival != null && r.Leaving == null)
+                          .Take(1);
+
+           // worktime = worktimeList.Single();
+            if (!worktimeList.Any())
+            {
+                return View("Create");
+            }
+            else
+            {
+                worktime = worktimeList.Single();
+                return View("Edit", worktime);
+            }
         }
 
         //
@@ -52,7 +75,7 @@ namespace WorktimeRegister.Controllers
                 worktime.Leaving = null;
                 _db.Worktimes.Add(worktime);
                 _db.SaveChanges();
-             //   return PartialView("_ListCurrentWorktime", worktime);
+                return RedirectToAction("Index");
             }
             return View(worktime);
         }
@@ -60,40 +83,25 @@ namespace WorktimeRegister.Controllers
         //
         // GET: /Worktime/Edit/5
         //For Admin user
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
-            Worktimes worktime = new Worktimes();
-            var worktimesList = _db.Worktimes.OrderByDescending(r => r.Date)
-                            .Where(r => r.Id == id)
-                          .Select(r => r);
-            
-            worktime = worktimesList.First();
-
-            //return RedirectToAction("Edit", worktime);
-            return PartialView("_Edit", worktime);
+            return View();
         }
 
         //
         // POST: /Worktime/Edit/5
         //for admin user
         [HttpPost]
-        public ActionResult Edit(Worktimes worktime)
+        public ActionResult Edit( Worktimes worktime)
         {
-            //var worktimesList = _db.Worktimes.OrderByDescending(r => r.Date)
-            //                .Where(r =>r.Id == worktime.Id && r.Arrival != null && r.Leaving == null)
-            //              .Select(r => r);
-
-            //worktime = worktimesList.First();
-
-            //if (ModelState.IsValid)
-            //{
-            //    worktime.Leaving = DateTime.Now;
-            //    _db.Entry(worktime).State = System.Data.EntityState.Modified;
-            //    _db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-            // return PartialView("_Edit");
-            return View("getID", worktime);
+             if (ModelState.IsValid)
+                        {
+                            worktime.Leaving = DateTime.Now;
+                            _db.Entry(worktime).State = System.Data.EntityState.Modified;
+                            _db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                        return View(worktime);
         }
 
 

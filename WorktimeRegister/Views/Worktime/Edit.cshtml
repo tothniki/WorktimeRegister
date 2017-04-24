@@ -1,25 +1,25 @@
 ﻿@model WorktimeRegister.Models.Worktimes
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Set Worktime";
 }
 
-<h2>Edit</h2>
+<h2>Leaving</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "Worktime")) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Worktimes</legend>
-
+        <legend>Leaving</legend>
+       
         @Html.HiddenFor(model => model.Id)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new { @readonly = true, @class = "readonly" })
             @Html.ValidationMessageFor(model => model.Name)
         </div>
 
@@ -27,7 +27,7 @@
             @Html.LabelFor(model => model.Date)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Date)
+            @Html.TextBoxFor(model => model.Date, new { @readonly = true, @class = "readonly" })
             @Html.ValidationMessageFor(model => model.Date)
         </div>
 
@@ -35,7 +35,7 @@
             @Html.LabelFor(model => model.Arrival)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Arrival)
+            @Html.TextBoxFor(model => model.Arrival, new { @readonly = true, @class = "readonly" })
             @Html.ValidationMessageFor(model => model.Arrival)
         </div>
 
@@ -43,12 +43,12 @@
             @Html.LabelFor(model => model.Leaving)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Leaving)
+            @Html.TextBoxFor(model => model.Leaving, new { @readonly = true, @class = "readonly" })
             @Html.ValidationMessageFor(model => model.Leaving)
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Leaving" />
         </p>
     </fieldset>
 }

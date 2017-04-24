@@ -2,9 +2,16 @@
 
 @{
     ViewBag.Title = "SetWorktime";
+    
 }
 
-<h2>SetWorktime</h2>
 
-@Html.Partial("_Create")
-@Html.Partial("_Edit", Model)
+
+@if (Model == null)
+{
+    @Html.Partial("_Create", Model)
+}
+else
+{
+     @Html.Partial("_Edit", Model)
+}
