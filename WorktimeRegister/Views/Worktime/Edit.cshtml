@@ -1,0 +1,63 @@
+﻿@model WorktimeRegister.Models.Worktimes
+
+@{
+    ViewBag.Title = "Set Worktime";
+}
+
+<h2>Leaving</h2>
+
+@using (Html.BeginForm("Edit", "Worktime")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Leaving</legend>
+       
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Name, new { @readonly = true, @class = "readonly" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Date)
+        </div>
+        <!-- Use textBoxFor, because i can pass html attributes, but neeed a format string because DisplayFormat[] is not working -->
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Date, "{0:yyyy.MM.dd}", new { @readonly = true, @class = "readonly" })
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Arrival)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Arrival, new { @readonly = true, @class = "readonly" })
+            @Html.ValidationMessageFor(model => model.Arrival)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Leaving)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Leaving, new { @readonly = true, @class = "readonly" })
+            @Html.ValidationMessageFor(model => model.Leaving)
+        </div>
+
+        <p>
+            <input type="submit" value="Leaving" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

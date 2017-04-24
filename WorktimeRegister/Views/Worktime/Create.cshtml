@@ -1,32 +1,28 @@
 ﻿@model WorktimeRegister.Models.Worktimes
 
 @{
-    ViewBag.Title = "Set Worktimes";
+    ViewBag.Title = "Set Worktime";
 }
 
-<h2>Set Worktimes</h2>
+<h2>Arrive</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","Worktime"))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
+    <!--I need just a button, because the properties vill be generated, and given by the user-->
     <fieldset>
-        <legend>Set Worktimes</legend>
+        <legend>Arrive</legend>
         <p>
             <input type="submit" value="Arrive" />
         </p>
     </fieldset>
 }
 
-@Html.Partial("_Edit")
-
-
-@*<div>
+<div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}*@
+}

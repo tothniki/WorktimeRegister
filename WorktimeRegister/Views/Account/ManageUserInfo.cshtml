@@ -19,6 +19,7 @@
             @Html.LabelFor(model => model.UserName)
         </div>
         <div class="editor-field">
+            <!--Make it read-only, so the user cannot edit-->
             @Html.TextBoxFor(model => model.UserName, new { @readonly = true , @class = "readonly"})
         </div>
 

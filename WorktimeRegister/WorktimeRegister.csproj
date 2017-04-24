@@ -312,10 +312,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Worktime\Index.cshtml" />
     <Content Include="Views\Account\ManageUserInfo.cshtml" />
-    <Content Include="Views\Worktime\_SearchByDate.cshtml" />
     <Content Include="Views\Worktime\Create.cshtml" />
-    <Content Include="Views\Worktime\_Edit.cshtml" />
-    <Content Include="Views\Worktime\Details.cshtml" />
+    <Content Include="Views\Worktime\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
