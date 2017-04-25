@@ -15,14 +15,13 @@ namespace WorktimeRegister.Controllers
         {
             var model = from r in _db.Worktimes
                         orderby r.Date ascending
+                        where r.Date == DateTime.Today
                         select r;
             return View(model);
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your app description page.";
-
             return View();
         }
 
