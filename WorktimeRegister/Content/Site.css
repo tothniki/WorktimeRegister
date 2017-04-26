@@ -654,5 +654,22 @@ table#searchByDate{
 td#searchByDate{
     padding: 0.25em 0.25em 0.25em 0.25em;
 }
+/*Drop Down List
+    ------------------------------------------------------*/
+.dropDownList{
+    position: relative;
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+    /* Styles */
+    background: #c9dff0;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px; 
+    
 
+    /* Font settings */
+    font-weight: bold;
+    font-size: 1.2em;
+}
 
