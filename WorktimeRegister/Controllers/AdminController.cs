@@ -34,12 +34,6 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult Users()
         {
-            string uName = "";
-            if (Request.Form["SelectUser"] != null)
-            {
-                uName = Request.Form["SelectUser"].ToString();
-                ViewBag.User = uName;
-            }
                 var users = _db.UserProfiles.OrderBy(r => r.UserName)
                             .Select(r => r);
             
@@ -119,6 +113,45 @@ namespace WorktimeRegister.Controllers
 
             // If we got this far, something failed, redisplay form
             return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
+        }
+
+        
+         //
+        // GET: /Admin/Delete/5
+
+        public ActionResult DeleteUser(int id)
+        {
+            var userList = _db.UserProfiles.Where(u => u.UserId == id).Take(1);
+            if (userList.Any())
+            {
+                var user = userList.First();
+                return View(user);
+            }
+            return View("Index");
+        }
+
+
+        //
+        // POST: /Admin/Delete
+
+        [HttpPost]
+        public ActionResult DeleteUser(UserProfile userProfile)
+        {
+            if (ModelState.IsValid)
+            {
+                var userList = _db.UserProfiles.Where(u => u.UserId == userProfile.UserId).Take(1);
+                if (userList.Any())
+                {
+                    var user = userList.Single();
+                    _db.UserProfiles.Remove(user);
+                    _db.SaveChanges();
+                    return RedirectToAction("Users", "Admin");
+                }
+            }
+            
+
+            //Kéne valami error page !!!!!!!!!
+            return View(userProfile);
         }
 
         //
