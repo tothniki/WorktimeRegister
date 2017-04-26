@@ -17,8 +17,8 @@
         @Html.DisplayFor(modelItem => Model.PhoneNumber)
     </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
-        @Html.ActionLink("Details", "Details", new { id = Model.UserId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = Model.UserId })
+        @Html.ActionLink("Edit", "EditUserInfo", new { id = Model.UserId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.UserId }) |
+        @Html.ActionLink("Worktimes", "Worktimes", new { id = Model.UserId })
     </td>
 </tr>

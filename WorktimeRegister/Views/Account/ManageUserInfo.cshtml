@@ -54,9 +54,16 @@
             @Html.EditorFor(model => model.PhoneNumber)
             @Html.ValidationMessageFor(model => model.PhoneNumber)
         </div>
-        <p>
-            @Html.ActionLink("Change Password", "Manage")
-        </p>
+        
+            @*Through THIS LINK everyone can change their own password only.
+            Through THIS LINK the admin can modify his/her own password only.*@
+            @if (User.Identity.Name == Model.UserName )
+            {
+                <p>
+                    @Html.ActionLink("Change Password", "Manage")
+                </p>
+            }
+        
         <p>
             <input type="submit" value="Save" />
         </p>

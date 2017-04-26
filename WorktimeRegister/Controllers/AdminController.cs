@@ -46,6 +46,8 @@ namespace WorktimeRegister.Controllers
                 return View(users);
         }
 
+
+
         //
         // GET: /Admin/Details/5
 
@@ -81,29 +83,42 @@ namespace WorktimeRegister.Controllers
         }
 
         //
-        // GET: /Admin/Edit/5
+        // GET: /Admin/EditUserInfo
 
-        public ActionResult Edit(int id)
+        public ActionResult EditUserInfo(int id)
         {
-            return View();
+            //Get the userprofile
+            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserId.Equals(id));
+
+            return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
         }
 
         //
-        // POST: /Admin/Edit/5
+        // POST: /Admin/EditUserInfo
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUserInfo(int id, UserProfile currentUserProfileModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                //Get the userprofile
+                UserProfile user = _db.UserProfiles.First(u => u.UserId.Equals(id));
 
-                return RedirectToAction("Index");
+                //Update fields
+                user.FirstName = currentUserProfileModel.FirstName;
+                user.LastName = currentUserProfileModel.LastName;
+                user.Email = currentUserProfileModel.Email;
+                user.PhoneNumber = currentUserProfileModel.PhoneNumber;
+
+                _db.Entry(user).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("Users", "Admin");
             }
-            catch
-            {
-                return View();
-            }
+
+            // If we got this far, something failed, redisplay form
+            return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
         }
 
         //
