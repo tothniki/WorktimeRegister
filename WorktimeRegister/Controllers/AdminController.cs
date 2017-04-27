@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
+using WorktimeRegister.Classes;
 using WorktimeRegister.Models;
 
 namespace WorktimeRegister.Controllers
@@ -22,11 +23,18 @@ namespace WorktimeRegister.Controllers
         }
 
         //
-        // GET: /Admin/Worktime
+        // GET: /Admin/SearchWorktime
 
-        public ActionResult Worktime()
+        public ActionResult SearchWorktime(int? searchYear = null, int? searchMonth = null, int? searchDay = null)
         {
-            return View();
+            ICollection<Worktimes> worktimeList;
+            //With .ToList make de db selection to ICollection<> type
+            worktimeList = _db.Worktimes.Select(r => r).ToList();
+
+            var worktimeLBD = new WorktimeListByDate(worktimeList, searchYear, searchMonth, searchDay);
+            var model = worktimeLBD.getWorktimeList();
+
+            return View(model);
         }
 
         //
