@@ -26,9 +26,7 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult Worktime()
         {
-            var users = _db.UserProfiles.OrderBy(r => r.UserName)
-                            .Select(r => r).ToList();
-            return View(users);
+            return View();
         }
 
         //
@@ -159,18 +157,18 @@ namespace WorktimeRegister.Controllers
                        return RedirectToAction("Users", "Admin");
                    }else if(!deletedAcc || !deletedUser){
                        //Kéne valami error page !!!!!!!!!
-                       return View(userProfile);
+                       return RedirectToAction("Users", "Admin");
                    }
                 }
                 else if(roles.GetRolesForUser(user.UserName).Contains("Admin"))
                 {
                     //Valami page hogy admint nem törölhet
-                    ;
+                    return RedirectToAction("Users", "Admin");
                 }
             }
 
             //Kéne valami error page !!!!!!!!!
-            return View(userProfile);
+            return RedirectToAction("Users", "Admin");
         }
 
         //

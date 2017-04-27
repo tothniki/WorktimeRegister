@@ -17,5 +17,9 @@ namespace WorktimeRegister.Models
         public DateTime Date { get; set; }
         public DateTime? Arrival { get; set; }
         public DateTime? Leaving { get; set; }
+
+        //Because the N-1 relationship:
+        public int UserId { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }

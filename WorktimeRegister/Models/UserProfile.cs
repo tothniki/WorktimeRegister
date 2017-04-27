@@ -29,6 +29,7 @@ namespace WorktimeRegister.Models
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
-        public ICollection<Worktimes> Worktimes { get; set; }
+        //Because the 1-N relationship:
+        public virtual ICollection<Worktimes> Worktimes { get; set; }
     }
 }

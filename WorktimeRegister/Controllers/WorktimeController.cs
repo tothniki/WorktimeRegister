@@ -10,6 +10,7 @@ using WorktimeRegister.Models;
 
 namespace WorktimeRegister.Controllers
 {
+    [Authorize]
     public class WorktimeController : Controller
     {
         WorktimeRegisterDb _db = new WorktimeRegisterDb();
@@ -27,19 +28,33 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult SetWorktime()
         {
-            Worktimes worktime = new Worktimes();
-            var worktimeList = _db.Worktimes.OrderByDescending(r => r.Date)
-                            .Where(r => r.Name == User.Identity.Name && r.Date == DateTime.Today && r.Arrival != null && r.Leaving == null)
-                          .Take(1);
+            string username = User.Identity.Name;
+            UserProfile user = _db.UserProfiles.First(u => u.UserName.Equals(username));
+            var worktimes = user.Worktimes.OrderByDescending(r => r.Date).Where(r => r.Date == DateTime.Today && r.Arrival != null && r.Leaving == null);
+
+
+            //Worktimes worktime = new Worktimes();
+            //var worktimeList = _db.Worktimes.OrderByDescending(r => r.Date)
+            //                .Where(r => r.Name == User.Identity.Name && r.Date == DateTime.Today && r.Arrival != null && r.Leaving == null)
+            //              .Take(1);
 
            // worktime = worktimeList.Single();
-            if (!worktimeList.Any())
+            //if (!worktimeList.Any())
+            //{
+            //    return View("Create");
+            //}
+            //else
+            //{
+            //    worktime = worktimeList.Single();
+            //    return View("Edit", worktime);
+            //}
+            if (!worktimes.Any())
             {
                 return View("Create");
             }
             else
             {
-                worktime = worktimeList.Single();
+                var worktime = worktimes.First();
                 return View("Edit", worktime);
             }
         }
@@ -67,12 +82,16 @@ namespace WorktimeRegister.Controllers
         [HttpPost]
         public ActionResult Create(Worktimes worktime)
         {
+            string username = User.Identity.Name;
+            UserProfile user = _db.UserProfiles.First(u=>u.UserName.Equals(username));
+
             if(ModelState.IsValid)
             {
                 worktime.Name = User.Identity.Name;
                 worktime.Date = DateTime.Today;
                 worktime.Arrival = DateTime.Now;
                 worktime.Leaving = null;
+                worktime.UserId = user.UserId;
                 _db.Worktimes.Add(worktime);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
