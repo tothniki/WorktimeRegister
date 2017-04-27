@@ -8,6 +8,10 @@ namespace WorktimeRegister
         // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //Create a bundle for all scripts using UI elemnts e.g. datepicker
+            bundles.Add(new ScriptBundle("~/bundles/uiscripts").Include(
+                        "~/Scripts/datePicker.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 

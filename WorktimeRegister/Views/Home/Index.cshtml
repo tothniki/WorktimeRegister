@@ -1,14 +1,55 @@
 ﻿@model IEnumerable<WorktimeRegister.Models.Worktimes>
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Today's Workers";
 }
 
-@foreach (var item in Model)
-{
-    <div>
-        <h4>@item.Date.ToString("yyy.MM.dd")</h4>
-        <div>@item.Arrival, @item.Leaving</div>
-        <hr />
-    </div>
+<div id="wrapper">
+    <h1>Today's Workers:</h1>
+
+    <table id="likeTodayTable" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Arrival)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Leaving)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="lalign">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Arrival)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Leaving)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @*own bundle and scripts*@
+    @Scripts.Render("~/bundles/uiscripts")
+    @*<script src="@Url.Content("~/Scripts/tableSorter.js")"></script>*@
 }
