@@ -18,7 +18,10 @@ namespace WorktimeRegister.Controllers
         //[Authorize(Roles = "Admin")] //this is just an example
         public ActionResult Index(int? searchYear= null, int? searchMonth = null, int? searchDay = null)
         {
-            var worktimeLBD = new WorktimeListByDate(searchYear, searchMonth, searchDay);
+            string username = User.Identity.Name;
+            UserProfile user = _db.UserProfiles.First(u => u.UserName.Equals(username));
+            var worktimeList = user.Worktimes;
+            var worktimeLBD = new WorktimeListByDate(worktimeList, searchYear, searchMonth, searchDay);
             var model = worktimeLBD.getWorktimeList();
             return View(model);
         }
