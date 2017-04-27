@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using WebMatrix.WebData;
 using WorktimeRegister.Models;
 
 namespace WorktimeRegister.Controllers
@@ -137,18 +139,35 @@ namespace WorktimeRegister.Controllers
         [HttpPost]
         public ActionResult DeleteUser(UserProfile userProfile)
         {
-            if (ModelState.IsValid)
+            var roles = (SimpleRoleProvider)Roles.Provider;
+            var membership = (SimpleMembershipProvider)Membership.Provider;
+
+            var userList = _db.UserProfiles.Where(u => u.UserId == userProfile.UserId).Take(1);
+            if (userList.Any())
             {
-                var userList = _db.UserProfiles.Where(u => u.UserId == userProfile.UserId).Take(1);
-                if (userList.Any())
+                var user = userList.Single();
+                if (!roles.GetRolesForUser(user.UserName).Any())
                 {
-                    var user = userList.Single();
-                    _db.UserProfiles.Remove(user);
-                    _db.SaveChanges();
-                    return RedirectToAction("Users", "Admin");
+
+                   bool deletedAcc = membership.DeleteAccount(user.UserName);
+                   bool deletedUser = false;
+                   if (deletedAcc)
+                   {
+                       deletedUser = membership.DeleteUser(user.UserName, true);
+                       //_db.UserProfiles.Remove(user);
+                       _db.SaveChanges();
+                       return RedirectToAction("Users", "Admin");
+                   }else if(!deletedAcc || !deletedUser){
+                       //Kéne valami error page !!!!!!!!!
+                       return View(userProfile);
+                   }
+                }
+                else if(roles.GetRolesForUser(user.UserName).Contains("Admin"))
+                {
+                    //Valami page hogy admint nem törölhet
+                    ;
                 }
             }
-            
 
             //Kéne valami error page !!!!!!!!!
             return View(userProfile);
