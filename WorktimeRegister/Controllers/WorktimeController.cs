@@ -81,7 +81,7 @@ namespace WorktimeRegister.Controllers
 
             if(ModelState.IsValid)
             {
-                worktime.Name = User.Identity.Name;
+               // worktime.Name = User.Identity.Name;
                 worktime.Date = DateTime.Today;
                 worktime.Arrival = DateTime.Now;
                 worktime.Leaving = null;

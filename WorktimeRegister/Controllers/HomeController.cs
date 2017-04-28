@@ -17,7 +17,7 @@ namespace WorktimeRegister.Controllers
                         orderby r.Date ascending
                         where r.Date == DateTime.Today
                         select r;
-            return View(model);
+            return View(model.ToList());
         }
 
         public ActionResult About()
