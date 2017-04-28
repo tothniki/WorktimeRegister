@@ -14,13 +14,13 @@
         <legend>Leaving</legend>
        
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserId)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.UserProfile.UserName )
         </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Name, new { @readonly = true, @class = "readonly" })
-            @Html.ValidationMessageFor(model => model.Name)
+        <div class="readonly">
+            @Html.DisplayFor(model => model.UserProfile.UserName)
         </div>
 
         <div class="editor-label">
@@ -55,7 +55,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "SearchWorktime")
 </div>
 
 @section Scripts {

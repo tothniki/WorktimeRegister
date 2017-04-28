@@ -18,39 +18,39 @@ namespace WorktimeRegister.Migrations
 
         protected override void Seed(WorktimeRegister.Models.WorktimeRegisterDb context)
         {
-            context.UserProfiles.AddOrUpdate(r => r.UserName,
-               new UserProfile
-               {
-                   UserName = "danika",
-                   Email = "fafula.dani@gmail.com",
-                   FirstName = "Danika",
-                   LastName = "Fafula",
-                   PhoneNumber = "204249919",
-                   Worktimes = new List<Worktimes> {
-                         new Worktimes
-                         {
-                             Name = "danika",
-                             Date = DateTime.Today.AddYears(1),
-                             Arrival = DateTime.Now.AddHours(2),
-                             Leaving = DateTime.Now.AddHours(8)
-                         },
-                         new Worktimes
-                         {
-                             Name = "danika",
-                             Date = DateTime.Today.AddDays(4).AddMonths(2).AddYears(2),
-                             Arrival = DateTime.Now.AddHours(3),
-                             Leaving = DateTime.Now.AddHours(5)
-                         },
-                         new Worktimes
-                         {
-                             Name = "danika",
-                             Date = DateTime.Today.AddMonths(1),
-                             Arrival = DateTime.Now,
-                             Leaving = DateTime.Now.AddHours(6)
-                         }
-                   }
-               }
-           );
+           // context.UserProfiles.AddOrUpdate(r => r.UserName,
+           //    new UserProfile
+           //    {
+           //        UserName = "danika",
+           //        Email = "fafula.dani@gmail.com",
+           //        FirstName = "Danika",
+           //        LastName = "Fafula",
+           //        PhoneNumber = "204249919",
+           //        Worktimes = new List<Worktimes> {
+           //              new Worktimes
+           //              {
+           //                  Name = "danika",
+           //                  Date = DateTime.Today.AddYears(1),
+           //                  Arrival = DateTime.Now.AddHours(2),
+           //                  Leaving = DateTime.Now.AddHours(8)
+           //              },
+           //              new Worktimes
+           //              {
+           //                  Name = "danika",
+           //                  Date = DateTime.Today.AddDays(4).AddMonths(2).AddYears(2),
+           //                  Arrival = DateTime.Now.AddHours(3),
+           //                  Leaving = DateTime.Now.AddHours(5)
+           //              },
+           //              new Worktimes
+           //              {
+           //                  Name = "danika",
+           //                  Date = DateTime.Today.AddMonths(1),
+           //                  Arrival = DateTime.Now,
+           //                  Leaving = DateTime.Now.AddHours(6)
+           //              }
+           //        }
+           //    }
+           //);
 
 
             //Seed user and admin

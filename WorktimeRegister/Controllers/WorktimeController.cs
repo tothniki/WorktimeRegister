@@ -10,15 +10,26 @@ using WorktimeRegister.Models;
 
 namespace WorktimeRegister.Controllers
 {
+    [Authorize]
     public class WorktimeController : Controller
     {
         WorktimeRegisterDb _db = new WorktimeRegisterDb();
 
-        //[Authorize(Roles = "Admin")] //this is just an example
-        public ActionResult Index(int? searchYear= null, int? searchMonth = null, int? searchDay = null)
+        //
+        // GET: /Worktime/SearchWorktime
+
+        public ActionResult SearchWorktime(int? searchYear = null, int? searchMonth = null, int? searchDay = null)
         {
-            var worktimeLBD = new WorktimeListByDate(searchYear, searchMonth, searchDay);
+            ICollection<Worktimes> worktimeList;
+
+            //Get current user
+            string username = User.Identity.Name;
+            UserProfile user = _db.UserProfiles.First(u => u.UserName.Equals(username));
+
+            worktimeList = user.Worktimes;
+            var worktimeLBD = new WorktimeListByDate(worktimeList, searchYear, searchMonth, searchDay);
             var model = worktimeLBD.getWorktimeList();
+
             return View(model);
         }
 
@@ -27,19 +38,17 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult SetWorktime()
         {
-            Worktimes worktime = new Worktimes();
-            var worktimeList = _db.Worktimes.OrderByDescending(r => r.Date)
-                            .Where(r => r.Name == User.Identity.Name && r.Date == DateTime.Today && r.Arrival != null && r.Leaving == null)
-                          .Take(1);
+            string username = User.Identity.Name;
+            UserProfile user = _db.UserProfiles.First(u => u.UserName.Equals(username));
+            var worktimes = user.Worktimes.OrderByDescending(r => r.Date).Where(r => r.Date == DateTime.Today && r.Arrival != null && r.Leaving == null);
 
-           // worktime = worktimeList.Single();
-            if (!worktimeList.Any())
+            if (!worktimes.Any())
             {
                 return View("Create");
             }
             else
             {
-                worktime = worktimeList.Single();
+                var worktime = worktimes.First();
                 return View("Edit", worktime);
             }
         }
@@ -67,15 +76,19 @@ namespace WorktimeRegister.Controllers
         [HttpPost]
         public ActionResult Create(Worktimes worktime)
         {
+            string username = User.Identity.Name;
+            UserProfile user = _db.UserProfiles.First(u=>u.UserName.Equals(username));
+
             if(ModelState.IsValid)
             {
-                worktime.Name = User.Identity.Name;
+               // worktime.Name = User.Identity.Name;
                 worktime.Date = DateTime.Today;
                 worktime.Arrival = DateTime.Now;
                 worktime.Leaving = null;
+                worktime.UserId = user.UserId;
                 _db.Worktimes.Add(worktime);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("SearchWorktime");
             }
             return View(worktime);
         }
@@ -99,7 +112,7 @@ namespace WorktimeRegister.Controllers
                             worktime.Leaving = DateTime.Now;
                             _db.Entry(worktime).State = System.Data.EntityState.Modified;
                             _db.SaveChanges();
-                            return RedirectToAction("Index");
+                            return RedirectToAction("SearchWorktime");
                         }
                         return View(worktime);
         }
