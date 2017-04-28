@@ -42,10 +42,13 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult Users()
         {
+            //Exception: There is already an open DataReader associated with this Command which must be closed first
+            //Solution: if you dont "force" execution of the select by "enumerating" query by ToList, it is in fact executed too late - in view.
                 var users = _db.UserProfiles.OrderBy(r => r.UserName)
-                            .Select(r => r);
-            
+                                    .Select(r => r).ToList();
+
                 return View(users);
+
         }
 
 
@@ -123,8 +126,8 @@ namespace WorktimeRegister.Controllers
             return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
         }
 
-        
-         //
+
+        //
         // GET: /Admin/Delete/5
 
         public ActionResult DeleteUser(int id)
@@ -148,31 +151,27 @@ namespace WorktimeRegister.Controllers
             var roles = (SimpleRoleProvider)Roles.Provider;
             var membership = (SimpleMembershipProvider)Membership.Provider;
 
-            var userList = _db.UserProfiles.Where(u => u.UserId == userProfile.UserId).Take(1);
-            if (userList.Any())
+            if (!roles.GetRolesForUser(userProfile.UserName).Any())
             {
-                var user = userList.Single();
-                if (!roles.GetRolesForUser(user.UserName).Any())
+                bool deletedAcc = membership.DeleteAccount(userProfile.UserName);
+                bool deletedUser = false;
+                if (deletedAcc)
                 {
-
-                   bool deletedAcc = membership.DeleteAccount(user.UserName);
-                   bool deletedUser = false;
-                   if (deletedAcc)
-                   {
-                       deletedUser = membership.DeleteUser(user.UserName, true);
-                       //_db.UserProfiles.Remove(user);
-                       _db.SaveChanges();
-                       return RedirectToAction("Users", "Admin");
-                   }else if(!deletedAcc || !deletedUser){
-                       //Kéne valami error page !!!!!!!!!
-                       return RedirectToAction("Users", "Admin");
-                   }
-                }
-                else if(roles.GetRolesForUser(user.UserName).Contains("Admin"))
-                {
-                    //Valami page hogy admint nem törölhet
+                    deletedUser = membership.DeleteUser(userProfile.UserName, true);
+                    //_db.UserProfiles.Remove(user);
+                    _db.SaveChanges();
                     return RedirectToAction("Users", "Admin");
                 }
+                else if (!deletedAcc || !deletedUser)
+                {
+                    //Kéne valami error page !!!!!!!!!
+                    return RedirectToAction("Users", "Admin");
+                }
+            }
+            else if (roles.GetRolesForUser(userProfile.UserName).Contains("Admin"))
+            {
+                //Valami page hogy admint nem törölhet
+                return RedirectToAction("Users", "Admin");
             }
 
             //Kéne valami error page !!!!!!!!!
