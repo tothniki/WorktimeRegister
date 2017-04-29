@@ -47,32 +47,11 @@ namespace WorktimeRegister.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Admin/Users
-
-        public ActionResult Users()
-        {
-            //Exception: There is already an open DataReader associated with this Command which must be closed first
-            //Solution: if you dont "force" execution of the select by "enumerating" query by ToList, it is in fact executed too late - in view.
-                var users = _db.UserProfiles.OrderBy(r => r.UserName)
-                                    .Select(r => r).ToList();
-
-                return View(users);
-
-        }
-
-
+        //Worktimes' modificaton actions
+        //------------------------------------------------------------------------
 
         //
-        // GET: /Admin/Details/5
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // GET: /Admin/Create
+        // GET: /Admin/CreateUserWorktime
 
         public ActionResult CreateUserWorktime(int userId)
         {
@@ -80,22 +59,49 @@ namespace WorktimeRegister.Controllers
         }
 
         //
-        // POST: /Admin/Create
+        // POST: /Admin/CreateUserWorktime
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateUserWorktime(int userId, Worktimes worktime)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            //Get the userprofile
+            UserProfile user = _db.UserProfiles.First(u => u.UserId == userId);
+            Worktimes newWorktime = new Worktimes();
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                DateTime arrive = new DateTime(worktime.Date.Year, worktime.Date.Month, worktime.Date.Day, worktime.Arrival.Value.Hour, worktime.Arrival.Value.Minute, worktime.Arrival.Value.Second);
+                DateTime leaving = new DateTime(worktime.Date.Year, worktime.Date.Month, worktime.Date.Day, worktime.Leaving.Value.Hour, worktime.Leaving.Value.Minute, worktime.Leaving.Value.Second);
+
+                newWorktime.Date = worktime.Date;
+                newWorktime.Arrival = arrive;
+                newWorktime.Leaving = leaving;
+                newWorktime.UserId = worktime.UserId;
+                _db.Worktimes.Add(newWorktime);
+                _db.SaveChanges();
+                return RedirectToAction("SearchWorktime", new { userId = newWorktime.UserId });
             }
+            return View(newWorktime);
         }
+
+        //UserProfiles' modificaton actions
+        //------------------------------------------------------------------------
+
+        //
+        // GET: /Admin/Users
+
+        public ActionResult Users()
+        {
+            //Exception: There is already an open DataReader associated with this Command which must be closed first
+            //Solution: if you dont "force" execution of the select by "enumerating" query by ToList, it is in fact executed too late - in view.
+            var users = _db.UserProfiles.OrderBy(r => r.UserName)
+                                .Select(r => r).ToList();
+
+            return View(users);
+
+        }
+
 
         //
         // GET: /Admin/EditUserInfo
@@ -138,7 +144,7 @@ namespace WorktimeRegister.Controllers
 
 
         //
-        // GET: /Admin/Delete/5
+        // GET: /Admin/DeleteUser/5
 
         public ActionResult DeleteUser(int id)
         {
@@ -153,7 +159,7 @@ namespace WorktimeRegister.Controllers
 
 
         //
-        // POST: /Admin/Delete
+        // POST: /Admin/DeleteUser
 
         [HttpPost]
         public ActionResult DeleteUser(UserProfile userProfile)

@@ -12,9 +12,15 @@ namespace WorktimeRegister.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd}",  ApplyFormatInEditMode = true)]
+        [DataType("Date")]
         public DateTime Date { get; set; }
+
+        [DataType("Time")]
         public DateTime? Arrival { get; set; }
+
+        [DataType("Time")]
         public DateTime? Leaving { get; set; }
 
         //Because the N-1 relationship:
