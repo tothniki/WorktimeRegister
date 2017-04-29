@@ -323,6 +323,8 @@
     <Content Include="Views\Admin\SearchWorktime.cshtml" />
     <Content Include="Views\Shared\_SearchByDate.cshtml" />
     <Content Include="Views\Admin\CreateUserWorktime.cshtml" />
+    <Content Include="Views\Admin\EditUserWorktime.cshtml" />
+    <Content Include="Views\Admin\DeleteUserWorktime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,58 @@
+﻿@model WorktimeRegister.Models.Worktimes
+
+@{
+    ViewBag.Title = "EditUserWorktime";
+}
+
+<h2>EditUserWorktime</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Worktimes</legend>
+
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Date)
+            (yyyy.mm.dd)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Date, "{0:yyyy.MM.dd}")
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Arrival)
+            (HH:mm:ss)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Arrival, "{0:HH:mm:ss}")
+            @Html.ValidationMessageFor(model => model.Arrival)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Leaving)
+            (HH:mm:ss)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Leaving, "{0:HH:mm:ss}")
+            @Html.ValidationMessageFor(model => model.Leaving)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "SearchWorktimes")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

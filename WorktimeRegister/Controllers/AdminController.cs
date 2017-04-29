@@ -51,6 +51,61 @@ namespace WorktimeRegister.Controllers
         //------------------------------------------------------------------------
 
         //
+        // GET: /Admin/EditUserWorktime
+
+        public ActionResult EditUserWorktime(int id)
+        {
+            Worktimes worktime = _db.Worktimes.First(u=>u.Id == id);
+            return View(worktime);
+        }
+
+        //
+        // POST: /Admin/EditUserWorktime
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUserWorktime(int id, Worktimes worktime)
+        {
+            if (ModelState.IsValid)
+            {
+                    _db.Entry(worktime).State = System.Data.EntityState.Modified;
+                    _db.SaveChanges();
+                    return RedirectToAction("SearchWorktime", new { userId = worktime.UserId});
+            }
+
+            return View(worktime);
+        }
+
+        //
+        // GET: /Admin/DeleteUserWorktime
+
+        public ActionResult DeleteUserWorktime(int id)
+        {
+            Worktimes worktime = _db.Worktimes.First(u => u.Id == id);
+            return View(worktime);
+        }
+
+        //
+        // POST: /Admin/DeleteUserWorktime
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteUserWorktime(int id, Worktimes worktime)
+        {
+            var worktimeList = _db.Worktimes.Where(u => u.Id == id).Select(u=>u);
+            if (worktimeList.Any())
+            {
+                var delWorktime = worktimeList.First();
+                _db.Worktimes.Remove(delWorktime);
+                _db.SaveChanges();
+                return RedirectToAction("SearchWorktime", new { userId = delWorktime.UserId });
+            }
+
+            //Ha kap Id-t, de nemtalál elemet hozzá a DB-ben?
+            return View(worktime);
+        }
+
+        //
         // GET: /Admin/CreateUserWorktime
 
         public ActionResult CreateUserWorktime(int userId)
