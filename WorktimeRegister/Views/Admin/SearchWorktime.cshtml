@@ -9,6 +9,11 @@
 
 @Html.Partial("_SearchByDate")
 
+@if (Request["userId"] != null)
+{
+    @Html.ActionLink("Add wokrtime", "CreateUserWorktime", new { userId = Request["userId"]})
+}
+
 <table>
     <tr>
         <th>
@@ -22,6 +27,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Leaving)
+        </th>
+        <th>
+           Etc.
         </th>
     </tr>
 
@@ -43,7 +51,6 @@
 
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
         </tr>

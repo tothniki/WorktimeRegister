@@ -322,6 +322,7 @@
     <Content Include="Views\Admin\DeleteUser.cshtml" />
     <Content Include="Views\Admin\SearchWorktime.cshtml" />
     <Content Include="Views\Shared\_SearchByDate.cshtml" />
+    <Content Include="Views\Admin\CreateUserWorktime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

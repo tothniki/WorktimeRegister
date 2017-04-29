@@ -25,11 +25,21 @@ namespace WorktimeRegister.Controllers
         //
         // GET: /Admin/SearchWorktime
 
-        public ActionResult SearchWorktime(int? searchYear = null, int? searchMonth = null, int? searchDay = null)
+        public ActionResult SearchWorktime(int? userId = null, int? searchYear = null, int? searchMonth = null, int? searchDay = null)
         {
             ICollection<Worktimes> worktimeList;
-            //With .ToList make de db selection to ICollection<> type
-            worktimeList = _db.Worktimes.Select(r => r).ToList();
+
+            if (userId != null)
+            {
+                //Get the userprofile
+                UserProfile user = _db.UserProfiles.First(u => u.UserId == userId);
+                worktimeList = user.Worktimes.ToList();
+            }
+            else
+            {
+                //With .ToList make de db selection to ICollection<> type
+                worktimeList = _db.Worktimes.Select(r => r).ToList();
+            }
 
             var worktimeLBD = new WorktimeListByDate(worktimeList, searchYear, searchMonth, searchDay);
             var model = worktimeLBD.getWorktimeList();
@@ -64,7 +74,7 @@ namespace WorktimeRegister.Controllers
         //
         // GET: /Admin/Create
 
-        public ActionResult Create()
+        public ActionResult CreateUserWorktime(int userId)
         {
             return View();
         }
@@ -73,7 +83,7 @@ namespace WorktimeRegister.Controllers
         // POST: /Admin/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateUserWorktime(int userId, Worktimes worktime)
         {
             try
             {
@@ -93,7 +103,7 @@ namespace WorktimeRegister.Controllers
         public ActionResult EditUserInfo(int id)
         {
             //Get the userprofile
-            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserId.Equals(id));
+            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserId==id);
 
             return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
         }
@@ -108,7 +118,7 @@ namespace WorktimeRegister.Controllers
             if (ModelState.IsValid)
             {
                 //Get the userprofile
-                UserProfile user = _db.UserProfiles.First(u => u.UserId.Equals(id));
+                UserProfile user = _db.UserProfiles.First(u => u.UserId == id);
 
                 //Update fields
                 user.FirstName = currentUserProfileModel.FirstName;

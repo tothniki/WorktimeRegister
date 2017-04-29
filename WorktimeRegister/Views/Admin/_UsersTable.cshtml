@@ -20,6 +20,6 @@
  
         @Html.ActionLink("Edit Userprofile", "EditUserInfo", new { id = Model.UserId }) |
         @Html.ActionLink("Delete User", "DeleteUser", new { id = Model.UserId }) |
-        @Html.ActionLink("Worktimes", "Worktimes", new { id = Model.UserId })
+        @Html.ActionLink("Worktimes", "SearchWorktime", new { userId = Model.UserId })
     </td>
 </tr>
