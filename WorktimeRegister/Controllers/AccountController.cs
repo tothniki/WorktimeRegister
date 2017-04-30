@@ -9,6 +9,7 @@ using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using WorktimeRegister.Models;
+using System.Net.Mail;
 
 namespace WorktimeRegister.Controllers
 {
@@ -93,6 +94,111 @@ namespace WorktimeRegister.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        //----------------------------------------------------
+        //Resert password actions:
+
+        // GET: Account/LostPassword
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // POST: Account/LostPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                MembershipUser user;
+                using (var context = new WorktimeRegisterDb() )
+                {
+                    var foundUserByEmail = context.UserProfiles.Where(u => u.Email.Equals(model.Email))
+                                        .Select(u => u.UserName).FirstOrDefault();
+
+                    if (foundUserByEmail != null)
+                    {
+                        user = Membership.GetUser(foundUserByEmail.ToString());
+                    }
+                    else
+                    {
+                        user = null;
+                    }
+                }
+                if (user != null)
+                {
+                    // Generae password token that will be used in the email link to authenticate user
+                    var token = WebSecurity.GeneratePasswordResetToken(user.UserName);
+                    // Generate the html link sent via email
+                    string resetLink = "<a href='"
+            + Url.Action("ResetPassword", "Account", new { rt = token }, "http")
+            + "'>Reset Password Link</a>";
+
+                    // Email stuff
+                    string subject = "Reset your password for cakeshopworktimereg.com";
+                    string body = "You link: " + resetLink;
+                    string from = "donotreply@cakeshopworktimereg.com";
+
+                    MailMessage message = new MailMessage(from, model.Email);
+                    message.Subject = subject;
+                    message.Body = body;
+                    SmtpClient client = new SmtpClient();
+
+                    // Attempt to send the email
+                    try
+                    {
+                        client.Send(message);
+                    }
+                    catch (Exception e)
+                    {
+                        ModelState.AddModelError("", "Issue sending email: " + e.Message);
+                    }
+                }
+                else // Email not found
+                {
+                    // Concerned about privacy
+                    return View("SuccesForgotPasswordEmailSending");
+                }
+            }
+
+            return View("SuccesForgotPasswordEmailSending");
+        }
+
+        // GET: /Account/ResetPassword
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string rt)
+        {
+            ResetPasswordModel model = new ResetPasswordModel();
+            model.ReturnToken = rt;
+            return View(model);
+        }
+
+        // POST: /Account/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool resetResponse = WebSecurity.ResetPassword(model.ReturnToken, model.Password);
+                if (resetResponse)
+                {
+                    ViewBag.Message = "Successfully Changed";
+                }
+                else
+                {
+                    ViewBag.Message = "Something went wrong! The change was not successful!";
+                }
+            }
+            return View(model);
+        }
+
+
+        //----------------------------------------------------
 
         //
         // POST: /Account/Disassociate
