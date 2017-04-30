@@ -160,7 +160,6 @@ namespace WorktimeRegister.Controllers
                 else // Email not found
                 {
                     // Concerned about privacy
-                    ViewBag.NotF = "nemtalal emailt";
                     return View("SuccesForgotPasswordEmailSending");
                 }
             }
@@ -192,7 +191,7 @@ namespace WorktimeRegister.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Something went wrong!";
+                    ViewBag.Message = "Something went wrong! The change was not successful!";
                 }
             }
             return View(model);
