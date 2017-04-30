@@ -29,6 +29,14 @@ namespace WorktimeRegister.Models
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
+        [Display(Name="Date of Birth")]
+        [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd}", ApplyFormatInEditMode = true)]
+        [DataType("Date")]
+        public DateTime DateOfBirth { get; set; }
+
+        [Display(Name="Place of Birth")]
+        public string PlaceOfBirth { get; set; }
+
         //Because the 1-N relationship:
         public virtual ICollection<Worktimes> Worktimes { get; set; }
     }

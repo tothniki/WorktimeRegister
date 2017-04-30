@@ -47,7 +47,18 @@
         <div >
             @Html.TextBoxFor(model => model.Email, new { @readonly = true, @class = "readonly" })
         </div>
-
+        <div>
+            @Html.LabelFor(model => model.DateOfBirth )
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.DateOfBirth, "{0:yyyy.MM.dd}" , new { @readonly = true, @class = "readonly" })
+        </div>
+        <div>
+            @Html.LabelFor(model => model.PlaceOfBirth )
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.PlaceOfBirth , new { @readonly = true, @class = "readonly" })
+        </div>
         <p>
             <input type="submit" value="Delete" />
         </p>

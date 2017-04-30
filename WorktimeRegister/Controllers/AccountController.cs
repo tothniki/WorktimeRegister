@@ -81,7 +81,7 @@ namespace WorktimeRegister.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new { FirstName=model.FirstName, LastName = model.LastName, Email=model.Email, PhoneNumber = model.PhoneNumber});
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new { FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, PhoneNumber = model.PhoneNumber, PlaceOfBirth = model.PlaceOfBirth, DateOfBirth = model.DateOfBirth });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
