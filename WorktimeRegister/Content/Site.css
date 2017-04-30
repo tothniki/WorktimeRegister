@@ -537,8 +537,9 @@ table {
 th {
     font-size: 1.2em;
     text-align: left;
-    border: none 0px;
+    /*border: none 0px;*/
     padding-left: 0;
+     border: solid 1px;
 }
 
     th a {
@@ -579,7 +580,8 @@ th {
 
 td {
     padding: 0.25em 2em 0.25em 0em;
-    border: 0 none;
+    /*border: 0 none;*/
+    border: solid 1px;
 }
 
 tr.pager td {
@@ -591,7 +593,7 @@ tr.pager td {
     */
 #wrapper {
   display: block;
-  /*width: 850px;*/
+  width: 100%;
   background: #fff;
   margin: 0 auto;
   padding: 10px 17px;
@@ -603,14 +605,15 @@ tr.pager td {
   font-size: 2.0em;
   line-height: 1.7em;
   margin: 0 auto;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   text-align: left;
 }
 
 #likeTodayTable {
+    width: 100% !important;
   margin: 0 auto;
-  font-size: 1.2em;
-  margin-bottom: 15px;
+  font-size: 1.0em;
+  margin-bottom: 5px;
 }
 
 #likeTodayTable thead {
@@ -620,7 +623,7 @@ tr.pager td {
 
 #likeTodayTable thead tr th { 
   font-weight: bold;
-  padding: 12px 36px;
+  padding: 6px 18px;
 }
 
 #likeTodayTable thead tr th.headerSortUp, #likeTodayTable thead tr th.headerSortDown {
@@ -633,7 +636,7 @@ tr.pager td {
 
 #likeTodayTable tbody tr td {
   text-align: center;
-  padding: 15px 10px;
+  padding: 6px 18px;
 }
 
 #likeTodayTable tbody tr td.lalign {

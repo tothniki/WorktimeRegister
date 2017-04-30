@@ -94,6 +94,18 @@ namespace WorktimeRegister.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Date of Birth")]
+        [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd}", ApplyFormatInEditMode = true)]
+        [DataType("Date")]
+        public DateTime DateOfBirth { get; set; }
+
+
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(30, ErrorMessage = "The {0} must be maximum {2} characters long.")]
+        [Display(Name = "Place of Birth")]
+        public string PlaceOfBirth { get; set; }
     }
 
     public class ExternalLogin

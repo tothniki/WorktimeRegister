@@ -17,6 +17,12 @@
         @Html.DisplayFor(modelItem => Model.PhoneNumber)
     </td>
     <td>
+        @Html.DisplayFor(modelItem => Model.PlaceOfBirth)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.DateOfBirth)
+    </td>
+    <td>
  
         @Html.ActionLink("Edit Userprofile", "EditUserInfo", new { id = Model.UserId }) |
         @Html.ActionLink("Delete User", "DeleteUser", new { id = Model.UserId }) |
