@@ -14,5 +14,6 @@ namespace WorktimeRegister.Models
         }
         public DbSet<Worktimes> Worktimes { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Company> Company { get; set; }
     }
 }

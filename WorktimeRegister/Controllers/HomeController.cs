@@ -32,6 +32,35 @@ namespace WorktimeRegister.Controllers
             return View();
         }
 
+        public ActionResult Company()
+        {
+            var model = _db.Company.FirstOrDefault();
+            return View(model);
+        }
+
+        // Get
+        // Home/Company
+        [Authorize(Roles = "admin")]
+        public ActionResult EditCompany(int id)
+        {
+            var model = _db.Company.FirstOrDefault( r => r.Id == id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles="admin")]
+        public ActionResult EditCompany(int id, Company company)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Entry(company).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Company");
+            }
+            return View(company);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (_db != null)
