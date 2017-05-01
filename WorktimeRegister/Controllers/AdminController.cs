@@ -253,32 +253,6 @@ namespace WorktimeRegister.Controllers
         }
 
         //
-        // GET: /Admin/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Admin/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
         //Admin/Export
 
         public ActionResult Export()
@@ -390,19 +364,25 @@ namespace WorktimeRegister.Controllers
                         rng.Style.Font.Color.SetColor(Color.Black);
                     }
                     //Format Date col
-                    using (ExcelRange col = ws.Cells[9,1,row-1,1])
+                    using (ExcelRange rng = ws.Cells[9, 1, row - 1, 1])
                     {
-                        col.Style.Numberformat.Format = "yyyy-mm-dd";
-                        col.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                        rng.Style.Numberformat.Format = "yyyy.mm.dd";
+                        rng.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
                     }
                     //Format Arrival, Leaving cols
-                    using (ExcelRange col = ws.Cells[9, 2, row - 1, 3])
+                    using (ExcelRange rng = ws.Cells[9, 2, row - 1, 3])
                     {
-                        col.Style.Numberformat.Format = "hh:mm:ss";
-                        col.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left ;
+                        rng.Style.Numberformat.Format = "hh:mm:ss";
+                        rng.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
                     }
+
+                    //Format Date Of Birth
+                    using(ExcelRange cell =  ws.Cells[4, 2]){
+                        cell.Style.Numberformat.Format = "yyyy.mm.dd";
+                    }
+
                     //Set autofit the cells' size
                     ws.Cells.AutoFitColumns();
                 }
