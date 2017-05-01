@@ -1,5 +1,8 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -55,7 +58,7 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult EditUserWorktime(int id)
         {
-            Worktimes worktime = _db.Worktimes.First(u=>u.Id == id);
+            Worktimes worktime = _db.Worktimes.First(u => u.Id == id);
             return View(worktime);
         }
 
@@ -68,9 +71,9 @@ namespace WorktimeRegister.Controllers
         {
             if (ModelState.IsValid)
             {
-                    _db.Entry(worktime).State = System.Data.EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("SearchWorktime", new { userId = worktime.UserId});
+                _db.Entry(worktime).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("SearchWorktime", new { userId = worktime.UserId });
             }
 
             return View(worktime);
@@ -92,7 +95,7 @@ namespace WorktimeRegister.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteUserWorktime(int id, Worktimes worktime)
         {
-            var worktimeList = _db.Worktimes.Where(u => u.Id == id).Select(u=>u);
+            var worktimeList = _db.Worktimes.Where(u => u.Id == id).Select(u => u);
             if (worktimeList.Any())
             {
                 var delWorktime = worktimeList.First();
@@ -164,7 +167,7 @@ namespace WorktimeRegister.Controllers
         public ActionResult EditUserInfo(int id)
         {
             //Get the userprofile
-            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserId==id);
+            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserId == id);
 
             return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
         }
@@ -274,6 +277,143 @@ namespace WorktimeRegister.Controllers
                 return View();
             }
         }
+
+        //
+        //Admin/Export
+
+        public ActionResult Export()
+        {
+            var worktimeList = _db.Worktimes.OrderBy(r => r.Date.Year).ToList();
+            if (worktimeList.Any())
+            {
+                var date = worktimeList.FirstOrDefault();
+                return View(date.Date);
+            }
+            else
+            {
+                return View(DateTime.Now);
+            }
+        }
+
+        [HttpPost]
+        public FileContentResult Export(FormCollection form)
+        {
+            var year = Request.Form["DropDownYear"].ToString();
+            var month = Request.Form["DropDownMonth"].ToString();
+            var fileDownloadName = String.Format("Export_Worktime_" + year + "_" + month + ".xlsx");
+            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+
+            // Pass your ef data to method
+            ExcelPackage package = GenerateExcelFile(year, month);
+
+            var fsr = new FileContentResult(package.GetAsByteArray(), contentType);
+            fsr.FileDownloadName = fileDownloadName;
+
+            return fsr;
+        }
+
+        //legyen ez static v ne?
+        private ExcelPackage GenerateExcelFile(string year, string month)
+        {
+            ExcelPackage pck = new ExcelPackage();
+
+            var users = _db.UserProfiles.OrderBy(r => r.UserName)
+                               .Select(r => r).ToList();
+
+            if (users.Any())
+            {
+                foreach (var user in users)
+                {
+                    var userFullName = user.FirstName + "_" + user.LastName;
+                    if (userFullName == "_")
+                    {
+                        userFullName = user.UserName;
+                    }
+                    //Create the worksheet 
+                    ExcelWorksheet ws = pck.Workbook.Worksheets.Add(userFullName);
+                    // Sets Headers
+                    ws.Cells[1, 1].Value = "Worktime sheet";
+                    ws.Cells[1, 2].Value = year + "-" + month;
+
+                    //User details
+                    ws.Cells[3, 1].Value = userFullName;
+                    ws.Cells[4, 1].Value = "Date of Birth:";
+                    ws.Cells[4, 2].Value = user.DateOfBirth;
+                    ws.Cells[5, 1].Value = "Phone number:";
+                    ws.Cells[5, 2].Value = user.PhoneNumber;
+                    ws.Cells[6, 1].Value = "Email:";
+                    ws.Cells[6, 2].Value = user.Email;
+
+                    //Worktime Table Headers
+                    ws.Cells[8, 1].Value = "Date";
+                    ws.Cells[8, 2].Value = "Arrive";
+                    ws.Cells[8, 3].Value = "Leaving";
+                    ws.Cells[8, 4].Value = "Hours";
+
+                    //Worktime table content
+                    int row = 9;
+                    double hoursADay = 0;
+                    double sumHoursADay = 0;
+                    if (user.Worktimes.Any())
+                    {
+                        
+                        foreach (var worktime in user.Worktimes.ToList())
+                        {
+                            if (worktime.Date.Year.ToString().Equals(year) && worktime.Date.Month.ToString().Equals(month))
+                            {
+                                ws.Cells[row,1].Value = worktime.Date;
+                                ws.Cells[row,2].Value = worktime.Arrival;
+                                ws.Cells[row,3].Value = worktime.Leaving;
+                                if(worktime.Leaving != null){
+                                    hoursADay = worktime.Leaving.Value.TimeOfDay.Subtract(worktime.Arrival.Value.TimeOfDay).Seconds / 3600.0;
+                                    sumHoursADay += hoursADay;
+                                    ws.Cells[row, 4].Value = hoursADay;
+                                }else{
+                                    ws.Cells[row, 4].Value = "";
+                                }
+                                row++;
+                            }
+                        }
+                    }
+                    row += 1;
+                    ws.Cells[row, 3].Value = "Sum hours:";
+                    ws.Cells[row, 4].Value = sumHoursADay;
+
+                    //
+                    // Format the excel content
+                    using (ExcelRange rng = ws.Cells["A1:D6"])
+                    {
+                        rng.Style.Font.Bold = true;
+                        rng.Style.Fill.PatternType = ExcelFillStyle.Solid; //Set Pattern for the background to Solid 
+                        rng.Style.Fill.BackgroundColor.SetColor(Color.LightBlue ); //Set color to DarkGray 
+                        rng.Style.Font.Color.SetColor(Color.Black);
+                    }
+                    //Format Date col
+                    using (ExcelRange col = ws.Cells[9,1,row-1,1])
+                    {
+                        col.Style.Numberformat.Format = "yyyy-mm-dd";
+                        col.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    }
+                    //Format Arrival, Leaving cols
+                    using (ExcelRange col = ws.Cells[9, 2, row - 1, 3])
+                    {
+                        col.Style.Numberformat.Format = "hh:mm:ss";
+                        col.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left ;
+
+                    }
+                    //Set autofit the cells' size
+                    ws.Cells.AutoFitColumns();
+                }
+
+
+            }
+
+            return pck;
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {
