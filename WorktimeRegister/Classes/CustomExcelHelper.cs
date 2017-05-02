@@ -114,7 +114,11 @@ namespace WorktimeRegister.Classes
                         ws.Cells[row, 3].Value = worktime.Leaving;
                         if (worktime.Leaving != null)
                         {
-                            hoursADay = worktime.Leaving.Value.TimeOfDay.Subtract(worktime.Arrival.Value.TimeOfDay).Seconds / 3600.0;
+
+                            DateTime arrive = (DateTime)worktime.Arrival;
+                            DateTime leaving = (DateTime)worktime.Leaving;
+                            TimeSpan duration = leaving-arrive;
+                            hoursADay = duration.TotalSeconds / 3600.0;
                             sumHoursADay += hoursADay;
                             ws.Cells[row, 4].Value = hoursADay;
                         }
