@@ -210,9 +210,16 @@ namespace WorktimeRegister.Classes
             //format Sum hours:
             using (ExcelRange rng = ws.Cells[row+1, 3, row+1 , 4])
             {
+                rng.Style.Numberformat.Format = "0.00";
                 rng.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                 rng.Style.Border.Left.Style = ExcelBorderStyle.Thin;
                 rng.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            }
+
+            //format the Hours col
+            using (ExcelRange rng = ws.Cells[9, 4, row - 1, 4])
+            {
+                rng.Style.Numberformat.Format = "0.00";
             }
 
             //Set autofit the cells' size
