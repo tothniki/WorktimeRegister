@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using WorktimeRegister.Models;
 
 namespace WorktimeRegister.Controllers
@@ -25,11 +26,11 @@ namespace WorktimeRegister.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult UserContact()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var users = _db.UserProfiles.OrderBy(r => r.UserName)
+                                .Select(r => r).ToList();
+            return View(users);
         }
 
         public ActionResult Company()

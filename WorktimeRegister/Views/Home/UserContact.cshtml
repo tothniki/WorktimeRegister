@@ -1,0 +1,77 @@
+﻿@model IEnumerable<WorktimeRegister.Models.UserProfile>
+
+@{
+    ViewBag.Title = "Workers' Contact";
+}
+
+<h2>Workers' Contact Page</h2>
+
+@{
+    var list = new List<SelectListItem>();
+    foreach (var item in Model)
+    {
+        if (!Roles.GetRolesForUser(item.UserName).Contains("Admin"))
+        {
+            list.Add(new SelectListItem() { Text = item.FirstName + " " + item.LastName + " (" + item.UserName + ")", Value = item.UserName });    
+        }
+    }
+}
+
+@using (@Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @*Mukodik: @Html.DropDownList("Select a username..", new SelectList(Model.Select(i=>i.UserName)))*@
+    <div>
+        @Html.DropDownList("SelectUser", list, "Select a user..", new { @class = "dropDownList" })
+    </div>
+    <input type="submit" value="Search" />
+}
+
+<div id="wrapper">
+    <table id="likeTodayTable" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Request.Form["SelectUser"] != null && Request.Form["SelectUser"] != "")
+                {
+                    var user = new WorktimeRegister.Models.UserProfile();
+                    foreach (var item in Model)
+                    {
+                        if (item.UserName == Request.Form["SelectUser"])
+                        {
+                            user = item;
+                        }
+                    }
+                    @Html.Partial("_UsersTableContact", user)
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        if (!Roles.GetRolesForUser(item.UserName).Contains("Admin"))
+                        {
+                            @Html.Partial("_UsersTableContact", item)
+                        }
+                    }
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
