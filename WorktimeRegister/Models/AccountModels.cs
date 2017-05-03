@@ -66,7 +66,7 @@ namespace WorktimeRegister.Models
         [Required(ErrorMessage = "{0} is required")]
         [EmailAddress]
         [StringLength(50, ErrorMessage = "The {0} length should be less than 50 characters long.")]
-        [Display(Name = "Email adress")]
+        [Display(Name = "Email address")]
         public string Email { get; set; }
 
         [DataType(DataType.EmailAddress)]

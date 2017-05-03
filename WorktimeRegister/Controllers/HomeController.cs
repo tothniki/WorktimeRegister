@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using WorktimeRegister.Models;
 
 namespace WorktimeRegister.Controllers
@@ -25,11 +26,40 @@ namespace WorktimeRegister.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult UserContact()
         {
-            ViewBag.Message = "Your contact page.";
+            var users = _db.UserProfiles.OrderBy(r => r.UserName)
+                                .Select(r => r).ToList();
+            return View(users);
+        }
 
-            return View();
+        public ActionResult Company()
+        {
+            var model = _db.Company.FirstOrDefault();
+            return View(model);
+        }
+
+        // Get
+        // Home/Company
+        [Authorize(Roles = "admin")]
+        public ActionResult EditCompany(int id)
+        {
+            var model = _db.Company.FirstOrDefault( r => r.Id == id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles="admin")]
+        public ActionResult EditCompany(int id, Company company)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Entry(company).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Company");
+            }
+            return View(company);
         }
 
         protected override void Dispose(bool disposing)

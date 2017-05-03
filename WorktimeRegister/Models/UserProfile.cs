@@ -17,7 +17,7 @@ namespace WorktimeRegister.Models
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
-        [Display(Name = "Email adress")]
+        [Display(Name = "Email address")]
         public string Email { get; set; }
 
         [Display(Name = "First name")]

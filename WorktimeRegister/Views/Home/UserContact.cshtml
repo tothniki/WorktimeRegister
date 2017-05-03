@@ -1,16 +1,19 @@
 ﻿@model IEnumerable<WorktimeRegister.Models.UserProfile>
 
 @{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "Workers' Contact";
 }
 
-<h2>Users</h2>
+<h2>Workers' Contact Page</h2>
 
 @{
     var list = new List<SelectListItem>();
     foreach (var item in Model)
     {
-        list.Add(new SelectListItem() { Text = item.FirstName + " " + item.LastName + " (" + item.UserName + ")", Value = item.UserName });
+        if (!Roles.GetRolesForUser(item.UserName).Contains("Admin"))
+        {
+            list.Add(new SelectListItem() { Text = item.FirstName + " " + item.LastName + " (" + item.UserName + ")", Value = item.UserName });    
+        }
     }
 }
 
@@ -30,12 +33,6 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.UserName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.FirstName)
                 </th>
                 <th>
@@ -45,13 +42,8 @@
                     @Html.DisplayNameFor(model => model.PhoneNumber)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PlaceOfBirth )
+                    @Html.DisplayNameFor(model => model.Email)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                </th>
-
-                <th>Etc.</th>
             </tr>
         </thead>
         <tbody>
@@ -66,13 +58,16 @@
                             user = item;
                         }
                     }
-                    @Html.Partial("_UsersTable", user)
+                    @Html.Partial("_UsersTableContact", user)
                 }
                 else
                 {
                     foreach (var item in Model)
                     {
-                        @Html.Partial("_UsersTable", item)
+                        if (!Roles.GetRolesForUser(item.UserName).Contains("Admin"))
+                        {
+                            @Html.Partial("_UsersTableContact", item)
+                        }
                     }
                 }
             }

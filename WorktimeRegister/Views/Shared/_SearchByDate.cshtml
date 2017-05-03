@@ -1,5 +1,8 @@
 ﻿@using (@Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
     <table id="searchByDate">
         <tr>
             <td>

@@ -139,7 +139,7 @@ namespace WorktimeRegister.Controllers
 
                     // Email stuff
                     string subject = "Reset your password for cakeshopworktimereg.com";
-                    string body = "You link: " + resetLink;
+                    string body = "Your link: " + resetLink;
                     string from = "donotreply@cakeshopworktimereg.com";
 
                     MailMessage message = new MailMessage(from, model.Email);

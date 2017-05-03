@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -55,7 +57,7 @@ namespace WorktimeRegister.Controllers
 
         public ActionResult EditUserWorktime(int id)
         {
-            Worktimes worktime = _db.Worktimes.First(u=>u.Id == id);
+            Worktimes worktime = _db.Worktimes.First(u => u.Id == id);
             return View(worktime);
         }
 
@@ -68,9 +70,9 @@ namespace WorktimeRegister.Controllers
         {
             if (ModelState.IsValid)
             {
-                    _db.Entry(worktime).State = System.Data.EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("SearchWorktime", new { userId = worktime.UserId});
+                _db.Entry(worktime).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("SearchWorktime", new { userId = worktime.UserId });
             }
 
             return View(worktime);
@@ -92,7 +94,7 @@ namespace WorktimeRegister.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteUserWorktime(int id, Worktimes worktime)
         {
-            var worktimeList = _db.Worktimes.Where(u => u.Id == id).Select(u=>u);
+            var worktimeList = _db.Worktimes.Where(u => u.Id == id).Select(u => u);
             if (worktimeList.Any())
             {
                 var delWorktime = worktimeList.First();
@@ -164,7 +166,7 @@ namespace WorktimeRegister.Controllers
         public ActionResult EditUserInfo(int id)
         {
             //Get the userprofile
-            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserId==id);
+            UserProfile currentUserProfileModel = _db.UserProfiles.First(u => u.UserId == id);
 
             return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
         }
@@ -249,30 +251,40 @@ namespace WorktimeRegister.Controllers
             return RedirectToAction("Users", "Admin");
         }
 
-        //
-        // GET: /Admin/Delete/5
+        //Excel generator actions
+        //---------------------------------------------------------
+        //Admin/Export
 
-        public ActionResult Delete(int id)
+        public ActionResult Export()
         {
-            return View();
+            var worktimeList = _db.Worktimes.OrderBy(r => r.Date.Year).ToList();
+            if (worktimeList.Any())
+            {
+                var date = worktimeList.FirstOrDefault();
+                return View(date.Date);
+            }
+            else
+            {
+                return View(DateTime.Now);
+            }
         }
 
-        //
-        // POST: /Admin/Delete/5
-
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public FileContentResult Export(FormCollection form)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var year = Request.Form["DropDownYear"].ToString();
+            var month = Request.Form["DropDownMonth"].ToString();
+            var fileDownloadName = String.Format("Export_Worktime_" + year + "_" + month + ".xlsx");
+            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            CustomExcelHelper excelhelper = new CustomExcelHelper(year, month, _db);
+            // Pass your ef data to method
+            ExcelPackage package = excelhelper.GenerateExcelFile();
+
+            var fsr = new FileContentResult(package.GetAsByteArray(), contentType);
+            fsr.FileDownloadName = fileDownloadName;
+
+            return fsr;
         }
 
         protected override void Dispose(bool disposing)
