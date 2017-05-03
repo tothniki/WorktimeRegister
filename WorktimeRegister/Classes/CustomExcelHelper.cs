@@ -142,7 +142,7 @@ namespace WorktimeRegister.Classes
             {
                 rng.Style.Font.Bold = true;
                 rng.Style.Fill.PatternType = ExcelFillStyle.Solid; //Set Pattern for the background to Solid 
-                rng.Style.Fill.BackgroundColor.SetColor(Color.LightSlateGray); //Set color to DarkGray 
+                rng.Style.Fill.BackgroundColor.SetColor(Color.LightSlateGray); //Set color for the background
                 rng.Style.Font.Color.SetColor(Color.Black);
             }
 
@@ -151,8 +151,8 @@ namespace WorktimeRegister.Classes
             using (ExcelRange rng = ws.Cells["A3:B6"])
             {
                 rng.Style.Font.Bold = true;
-                rng.Style.Fill.PatternType = ExcelFillStyle.Solid; //Set Pattern for the background to Solid 
-                rng.Style.Fill.BackgroundColor.SetColor(Color.LightSlateGray); //Set color to DarkGray 
+                rng.Style.Fill.PatternType = ExcelFillStyle.Solid; 
+                rng.Style.Fill.BackgroundColor.SetColor(Color.LightSlateGray);
                 rng.Style.Font.Color.SetColor(Color.Black);
                 rng.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
             }
@@ -168,8 +168,8 @@ namespace WorktimeRegister.Classes
             using (ExcelRange rng = ws.Cells["D3:E6"])
             {
                 rng.Style.Font.Bold = true;
-                rng.Style.Fill.PatternType = ExcelFillStyle.Solid; //Set Pattern for the background to Solid 
-                rng.Style.Fill.BackgroundColor.SetColor(Color.LightSlateGray); //Set color to DarkGray 
+                rng.Style.Fill.PatternType = ExcelFillStyle.Solid; 
+                rng.Style.Fill.BackgroundColor.SetColor(Color.LightSlateGray);
                 rng.Style.Font.Color.SetColor(Color.Black);
                 rng.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
             }
@@ -220,6 +220,7 @@ namespace WorktimeRegister.Classes
             using (ExcelRange rng = ws.Cells[9, 4, row - 1, 4])
             {
                 rng.Style.Numberformat.Format = "0.00";
+                rng.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             }
 
             //Set autofit the cells' size
