@@ -337,6 +337,7 @@
     <Content Include="Views\Home\Company.cshtml" />
     <Content Include="Views\Home\UserContact.cshtml" />
     <Content Include="Views\Home\_UsersTableContact.cshtml" />
+    <Content Include="Szakdolgozat_dokumentáció.docx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
