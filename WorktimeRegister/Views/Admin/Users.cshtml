@@ -10,7 +10,10 @@
     var list = new List<SelectListItem>();
     foreach (var item in Model)
     {
-        list.Add(new SelectListItem() { Text = item.FirstName + " " + item.LastName + " (" + item.UserName + ")", Value = item.UserName });
+        if (!Roles.GetRolesForUser(item.UserName).Contains("Admin"))
+        {
+            list.Add(new SelectListItem() { Text = item.FirstName + " " + item.LastName + " (" + item.UserName + ")", Value = item.UserName });
+        }
     }
 }
 
@@ -21,8 +24,8 @@
     @*Mukodik: @Html.DropDownList("Select a username..", new SelectList(Model.Select(i=>i.UserName)))*@
     <div>
         @Html.DropDownList("SelectUser", list, "Select a user..", new { @class = "dropDownList" })
+    <input class ="submitButton" type="submit" value="Search" />
     </div>
-    <input type="submit" value="Search" />
 }
 
 <div id="wrapper">
@@ -72,7 +75,10 @@
                 {
                     foreach (var item in Model)
                     {
-                        @Html.Partial("_UsersTable", item)
+                       if (!Roles.GetRolesForUser(item.UserName).Contains("Admin"))
+                        {
+                            @Html.Partial("_UsersTable", item)
+                        }
                     }
                 }
             }
