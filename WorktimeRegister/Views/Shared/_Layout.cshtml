@@ -1,57 +1,55 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @*I set here this scc because of the datepicker*@
+    @Styles.Render("~/Content/themes/base/css")
 
-       @*I set here this scc because of the datepicker*@
-       @Styles.Render("~/Content/themes/base/css")
-        
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Cake Shop Garden", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Today", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Workers' Contact", "UserContact", "Home")</li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <li>@Html.ActionLink("Worktimes", "SearchWorktime", "Worktime")</li>
-                                <li>@Html.ActionLink("Set Worktime", "SetWorktime", "Worktime")</li>
-                            }
-                            <li>@Html.ActionLink("Company", "Company", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
+</head>
+<body>
+    <header>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title">@Html.ActionLink("Cake Shop Garden", "Index", "Home")</p>
             </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+                <nav>
+                    <ul id="menu">
+                        <li>@Html.ActionLink("Today", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Workers' Contact", "UserContact", "Home")</li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Worktimes", "SearchWorktime", "Worktime")</li>
+                            <li>@Html.ActionLink("Set Worktime", "SetWorktime", "Worktime")</li>
+                        }
+                        <li>@Html.ActionLink("Company", "Company", "Home")</li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
+    </header>
+    <div id="body">
+        <section class="content-wrapper main-content clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
 </html>

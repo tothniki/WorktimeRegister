@@ -133,9 +133,7 @@ namespace WorktimeRegister.Controllers
                     // Generae password token that will be used in the email link to authenticate user
                     var token = WebSecurity.GeneratePasswordResetToken(user.UserName);
                     // Generate the html link sent via email
-                    string resetLink = "<a href='"
-            + Url.Action("ResetPassword", "Account", new { rt = token }, "http")
-            + "'>Reset Password Link</a>";
+                    string resetLink = Url.Action("ResetPassword", "Account", new { rt = token }, "http");
 
                     // Email stuff
                     string subject = "Reset your password for cakeshopworktimereg.com";

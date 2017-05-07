@@ -24,8 +24,9 @@
     @*Mukodik: @Html.DropDownList("Select a username..", new SelectList(Model.Select(i=>i.UserName)))*@
     <div>
         @Html.DropDownList("SelectUser", list, "Select a user..", new { @class = "dropDownList" })
+        <input class ="submitButton" type="submit" value="Search" />
     </div>
-    <input type="submit" value="Search" />
+    
 }
 
 <div id="wrapper">

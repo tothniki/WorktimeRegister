@@ -12,38 +12,43 @@
 </form>*@
 @Html.Partial("_SearchByDate")
 
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserProfile.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Arrival)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Leaving)
-        </th>
-    </tr>
+<div id="wrapper">
+    <table id="likeTodayTable" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProfile.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Arrival)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Leaving)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserProfile.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Arrival)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Leaving)
+                    </td>
+                </tr>
+            }
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfile.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Arrival)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Leaving)
-            </td>
-        </tr>
-    }
-
-</table>
+        </tbody>
+    </table>
+</div>

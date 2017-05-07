@@ -5,11 +5,17 @@
 }
 
 <div id="wrapper">
-    <h1>Today's Workers:</h1>
+    <h1>Today's Workers</h1>
 
     <table id="likeTodayTable" cellspacing="0" cellpadding="0">
         <thead>
             <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProfile.LastName)
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.UserProfile.UserName)
                 </th>
@@ -28,7 +34,13 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="lalign">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserProfile.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserProfile.LastName)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.UserProfile.UserName)
                     </td>
                     <td>

@@ -9,49 +9,43 @@
 <fieldset>
     <legend>Company</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
+    <div>
+        @Html.LabelFor(model => model.Name)
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
+    <div>
+        @Html.TextBoxFor(model => model.Name, new { @readonly = true, @class = "readonly" })
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Country)
+    <div>
+        @Html.LabelFor(model => model.Country)
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Country)
+    <div>
+        @Html.TextBoxFor(model => model.Country, new { @readonly = true, @class = "readonly" })
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.PostCode)
+    <div>
+        @Html.LabelFor(model => model.PostCode)
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.PostCode)
+    <div>
+        @Html.TextBoxFor(model => model.PostCode, new { @readonly = true, @class = "readonly" })
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.City)
+    <div>
+        @Html.LabelFor(model => model.City)
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.City)
+    <div>
+        @Html.TextBoxFor(model => model.City, new { @readonly = true, @class = "readonly" })
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Address)
+    <div>
+        @Html.LabelFor(model => model.Address)
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Address)
+    <div>
+        @Html.TextBoxFor(model => model.Address, new { @readonly = true, @class = "readonly" })
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Email)
+    <div>
+        @Html.LabelFor(model => model.Email)
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Email)
+    <div>
+        @Html.TextBoxFor(model => model.Email, "{0:yyyy.MM.dd}", new { @readonly = true, @class = "readonly" })
     </div>
+    @if(Roles.GetRolesForUser(User.Identity.Name).Contains("Admin")){
+        @Html.ActionLink("Edit", "EditCompany", new { id = Model.Id})
+    }
 </fieldset>
-<p>
-    @Html.ActionLink("Edit", "EditCompany", new { id=Model.Id }) |
-    @Html.ActionLink("Back to Home Page", "Index")
-</p>

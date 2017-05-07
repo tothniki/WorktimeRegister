@@ -533,9 +533,9 @@ table {
 th {
     font-size: 1.2em;
     text-align: left;
-    /*border: none 0px;*/
+    border: none 0px;
     padding-left: 0;
-     border: solid 1px;
+    
 }
 
     th a {
@@ -576,8 +576,8 @@ th {
 
 td {
     padding: 0.25em 2em 0.25em 0em;
-    /*border: 0 none;*/
-    border: solid 1px;
+    border: 0 none;
+   
 }
 
 tr.pager td {
@@ -631,8 +631,8 @@ tr.pager td {
 }
 
 #likeTodayTable tbody tr td {
-  text-align: center;
-  padding: 6px 18px;
+  text-align: left;
+   padding: 6px 18px;
 }
 
 #likeTodayTable tbody tr td.lalign {
@@ -647,11 +647,13 @@ tr.pager td {
 
 /*Search by date
 ----------------------------------------------------------*/
-table#searchByDate{
-    background-color: #cfe8f0;
+#searchByDate{
+    background-color: #c9dff0;
+  font-size: 1.0em;
 }
-td#searchByDate{
-    padding: 0.25em 0.25em 0.25em 0.25em;
+#searchByDate tr td{
+       padding: 3px 9px;
+    text-align: center;
 }
 /*Drop Down List
     ------------------------------------------------------*/
@@ -666,6 +668,17 @@ td#searchByDate{
     cursor: pointer;
     border-radius: 5px; 
     
+
+    /* Font settings */
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.submitButton{
+    background: #c9dff0;
+    /*outline: none;*/
+    cursor: pointer;
+    border-radius: 5px; 
 
     /* Font settings */
     font-weight: bold;

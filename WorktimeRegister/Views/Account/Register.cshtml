@@ -18,22 +18,27 @@
         <div>
             @Html.LabelFor(m => m.FirstName)
             @Html.TextBoxFor(m => m.FirstName)
+            @Html.ValidationMessageFor(m => m.FirstName)
         </div>
         <div>
             @Html.LabelFor(m => m.LastName)
             @Html.TextBoxFor(m => m.LastName)
+            @Html.ValidationMessageFor(m => m.LastName)
         </div>
         <div>
             @Html.LabelFor(m => m.Email)
             @Html.TextBoxFor(m => m.Email)
+            @Html.ValidationMessageFor(m => m.Email)
         </div>
         <div>
             @Html.LabelFor(m => m.ConfirmEmail)
             @Html.TextBoxFor(m => m.ConfirmEmail)
+            @Html.ValidationMessageFor(m => m.ConfirmEmail)
         </div>
         <div>
             @Html.LabelFor(m => m.PhoneNumber)
             @Html.TextBoxFor(m => m.PhoneNumber)
+            @Html.ValidationMessageFor(m => m.PhoneNumber)
         </div>
            
         <div class="editor-label">
@@ -46,15 +51,18 @@
         <div>
             @Html.LabelFor(m => m.PlaceOfBirth)
             @Html.TextBoxFor(m => m.PlaceOfBirth)
+            @Html.ValidationMessageFor(m => m.PlaceOfBirth)
         </div>
 
         <div>
             @Html.LabelFor(m => m.UserName)
             @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName)
         </div>
         <div>
             @Html.LabelFor(m => m.Password)
             @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
         </div>
             <div>
                 @Html.LabelFor(m => m.ConfirmPassword)
