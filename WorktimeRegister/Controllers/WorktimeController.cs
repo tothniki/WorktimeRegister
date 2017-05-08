@@ -26,7 +26,7 @@ namespace WorktimeRegister.Controllers
             string username = User.Identity.Name;
             UserProfile user = _db.UserProfiles.First(u => u.UserName.Equals(username));
 
-            worktimeList = user.Worktimes;
+            worktimeList = user.Worktimes.OrderByDescending(r=>r.Date).ToList();
             var worktimeLBD = new WorktimeListByDate(worktimeList, searchYear, searchMonth, searchDay);
             var model = worktimeLBD.getWorktimeList();
 

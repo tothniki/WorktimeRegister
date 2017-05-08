@@ -21,10 +21,7 @@ namespace WorktimeRegister.Controllers
             return View(model.ToList());
         }
 
-        public ActionResult About()
-        {
-            return View();
-        }
+       
 
         public ActionResult UserContact()
         {
