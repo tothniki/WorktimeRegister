@@ -7,25 +7,22 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
-        <style>
-            body {
-                color: #73879C;
-                background: #c1d7e2;
-            }
-        </style>
+        @*I set here this scc because of the datepicker*@
+        @Styles.Render("~/Content/themes/base/css")
     </head>
-    <body>
+    <body class="admin">
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Cake Shop Garden", "Index", "Home")</p>
+                    <p id="admin-site-title">@Html.ActionLink("Cake Shop Garden", "Index", "Home")</p>
+                    <h1 id="admin-title">Admin</h1>
                 </div>
                 <div class="float-right">
-                    <section id="login">
+                    <section class="admin"id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
-                    <nav>
-                        <ul id="menu">
+                    <nav class="admin" id="menu">
+                        <ul>
                             <li>@Html.ActionLink("Today", "Index", "Admin")</li>
                             <li>@Html.ActionLink("Users", "Users", "Admin")</li>
                             <li>@Html.ActionLink("Worktimes", "SearchWorktime", "Admin")</li>

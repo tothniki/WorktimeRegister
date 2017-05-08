@@ -21,8 +21,8 @@
                 <section id="login">
                     @Html.Partial("_LoginPartial")
                 </section>
-                <nav>
-                    <ul id="menu">
+                <nav id="menu">
+                    <ul>
                         <li>@Html.ActionLink("Today", "Index", "Home")</li>
                         <li>@Html.ActionLink("Workers' Contact", "UserContact", "Home")</li>
                         @if (User.Identity.IsAuthenticated)

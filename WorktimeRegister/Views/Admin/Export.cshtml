@@ -10,8 +10,8 @@
 {
     @Html.AntiForgeryToken()
     
-    @Html.DropDownList("DropDownYear", Enumerable.Range(Model.Year, DateTime.Now.Year - Model.Year + 1).Select(x => new SelectListItem { Text = x.ToString() }))
-    @Html.DropDownList("DropDownMonth", Enumerable.Range(1, 12).Select(x => new SelectListItem { Text = x.ToString() }))
+    @Html.DropDownList("DropDownYear", Enumerable.Range(Model.Year, DateTime.Now.Year - Model.Year + 1).Select(x => new SelectListItem { Text = x.ToString() }), new { @class = "dropDownList" })
+    @Html.DropDownList("DropDownMonth", Enumerable.Range(1, 12).Select(x => new SelectListItem { Text = x.ToString() }), new { @class = "dropDownList" })
 
     <input class="submitButton" type="submit" value="Export" />
 }

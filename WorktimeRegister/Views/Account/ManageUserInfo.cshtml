@@ -74,12 +74,12 @@
             @if (User.Identity.Name == Model.UserName )
             {
                 <p>
-                    @Html.ActionLink("Change Password", "Manage")
+                    @Html.ActionLink("Change Password", "Manage", new { @class = "submitButton" })
                 </p>
             }
         
         <p>
-            <input type="submit" value="Save" />
+            <input class="submitButton" type="submit" value="Save" />
         </p>
     </fieldset>
 }

@@ -16,12 +16,7 @@
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.UserId)
 
-        <div class="editor-label">
-            @Html.DisplayNameFor(model => model.UserProfile.UserName )
-        </div>
-        <div class="readonly">
-            @Html.DisplayFor(model => model.UserProfile.UserName)
-        </div>
+        
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Date)
@@ -49,13 +44,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Leaving" />
+            <input class="submitButton" type="submit" value="Leaving" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "SearchWorktime")
+    @Html.ActionLink("Back to Worktimes", "SearchWorktime")
 </div>
 
 @section Scripts {

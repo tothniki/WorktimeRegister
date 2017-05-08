@@ -10,50 +10,56 @@
 @Html.Partial("_SearchByDate")
 
 @if (Request["userId"] != null)
-{
-    @Html.ActionLink("Add wokrtime", "CreateUserWorktime", new { userId = Request["userId"]})
+{<p>
+        @Html.ActionLink("Add wokrtime", "CreateUserWorktime", new { userId = Request["userId"] }, new { @class = "submitButton" })
+    </p>
 }
 
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserProfile.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Arrival)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Leaving)
-        </th>
-        <th>
-           Etc.
-        </th>
-    </tr>
+<div id="wrapper">
+    <table id="likeTodayTable" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProfile.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Arrival)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Leaving)
+                </th>
+                <th>
+                    Etc.
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserProfile.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Arrival)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Leaving)
+                    </td>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfile.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Arrival)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Leaving)
-            </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditUserWorktime", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "DeleteUserWorktime", new { id = item.Id })
+                    </td>
+                </tr>
+            }
 
-            <td>
-                @Html.ActionLink("Edit", "EditUserWorktime", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "DeleteUserWorktime", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
-</table>
+        </tbody>
+    </table>
+</div>
