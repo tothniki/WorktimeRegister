@@ -39,7 +39,7 @@ namespace WorktimeRegister.Controllers
             }
             else
             {
-                //With .ToList make de db selection to ICollection<> type
+                //With .ToList make the db selection to ICollection<> type
                 worktimeList = _db.Worktimes.Select(r => r).ToList();
             }
 
@@ -102,8 +102,6 @@ namespace WorktimeRegister.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("SearchWorktime", new { userId = delWorktime.UserId });
             }
-
-            //Ha kap Id-t, de nemtalál elemet hozzá a DB-ben?
             return View(worktime);
         }
 
@@ -195,7 +193,6 @@ namespace WorktimeRegister.Controllers
                 return RedirectToAction("Users", "Admin");
             }
 
-            // If we got this far, something failed, redisplay form
             return View("~/Views/Account/ManageUserInfo.cshtml", currentUserProfileModel);
         }
 
@@ -219,6 +216,7 @@ namespace WorktimeRegister.Controllers
         // POST: /Admin/DeleteUser
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteUser(UserProfile userProfile)
         {
             var roles = (SimpleRoleProvider)Roles.Provider;
@@ -231,23 +229,19 @@ namespace WorktimeRegister.Controllers
                 if (deletedAcc)
                 {
                     deletedUser = membership.DeleteUser(userProfile.UserName, true);
-                    //_db.UserProfiles.Remove(user);
                     _db.SaveChanges();
                     return RedirectToAction("Users", "Admin");
                 }
                 else if (!deletedAcc || !deletedUser)
                 {
-                    //Kéne valami error page !!!!!!!!!
                     return RedirectToAction("Users", "Admin");
                 }
             }
             else if (roles.GetRolesForUser(userProfile.UserName).Contains("Admin"))
             {
-                //Valami page hogy admint nem törölhet
                 return RedirectToAction("Users", "Admin");
             }
 
-            //Kéne valami error page !!!!!!!!!
             return RedirectToAction("Users", "Admin");
         }
 
@@ -270,6 +264,7 @@ namespace WorktimeRegister.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public FileContentResult Export(FormCollection form)
         {
             var year = Request.Form["DropDownYear"].ToString();

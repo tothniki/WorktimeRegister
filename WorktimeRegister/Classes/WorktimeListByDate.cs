@@ -99,6 +99,5 @@ namespace WorktimeRegister.Classes
             return model;
         }
 
-        //Dispose?
     }
 }

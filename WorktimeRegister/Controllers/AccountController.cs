@@ -98,14 +98,14 @@ namespace WorktimeRegister.Controllers
         //----------------------------------------------------
         //Resert password actions:
 
-        // GET: Account/LostPassword
+        // GET: Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        // POST: Account/LostPassword
+        // POST: Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -130,12 +130,12 @@ namespace WorktimeRegister.Controllers
                 }
                 if (user != null)
                 {
-                    // Generae password token that will be used in the email link to authenticate user
+                    // Generae password token
                     var token = WebSecurity.GeneratePasswordResetToken(user.UserName);
-                    // Generate the html link sent via email
+                    // Generate the html link with the token 
                     string resetLink = Url.Action("ResetPassword", "Account", new { rt = token }, "http");
 
-                    // Email stuff
+                    // Email
                     string subject = "Reset your password for cakeshopworktimereg.com";
                     string body = "Your link: " + resetLink;
                     string from = "donotreply@cakeshopworktimereg.com";
@@ -145,7 +145,7 @@ namespace WorktimeRegister.Controllers
                     message.Body = body;
                     SmtpClient client = new SmtpClient();
 
-                    // Attempt to send the email
+                    // send the email
                     try
                     {
                         client.Send(message);
@@ -155,9 +155,9 @@ namespace WorktimeRegister.Controllers
                         ModelState.AddModelError("", "Issue sending email: " + e.Message);
                     }
                 }
-                else // Email not found
+                else
                 {
-                    // Concerned about privacy
+                    // Because of the privacy
                     return View("SuccesForgotPasswordEmailSending");
                 }
             }

@@ -67,6 +67,7 @@ namespace WorktimeRegister.Controllers
         // POST: /Worktime/Create
         //for users
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Worktimes worktime)
         {
             string username = User.Identity.Name;
@@ -74,7 +75,6 @@ namespace WorktimeRegister.Controllers
 
             if(ModelState.IsValid)
             {
-               // worktime.Name = User.Identity.Name;
                 worktime.Date = DateTime.Today;
                 worktime.Arrival = DateTime.Now;
                 worktime.Leaving = null;
@@ -98,6 +98,7 @@ namespace WorktimeRegister.Controllers
         // POST: /Worktime/Edit/5
         //for admin user
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit( Worktimes worktime)
         {
              if (ModelState.IsValid)
